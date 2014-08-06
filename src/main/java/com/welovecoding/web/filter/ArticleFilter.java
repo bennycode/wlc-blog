@@ -1,6 +1,9 @@
 package com.welovecoding.web.filter;
 
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.servlet.Filter;
@@ -30,8 +33,27 @@ public class ArticleFilter implements Filter {
     String contextPath = servletRequest.getContextPath();
     String requestURI = servletRequest.getRequestURI();
     String path = requestURI.substring(contextPath.length(), requestURI.length());
+    String resourcePath = path + ".md";
 
     LOG.log(Level.INFO, "Requested path: {0}", path);
+    InputStream is = getClass().getClassLoader().getResourceAsStream(resourcePath);
+
+    if (is == null) {
+      LOG.log(Level.WARNING, "File could not be found: {0}", resourcePath);
+    } else {
+      LOG.log(Level.INFO, "Found file: {0}", resourcePath);
+
+      String currentLine;
+
+      try (BufferedReader br = new BufferedReader(new InputStreamReader(is))) {
+        while ((currentLine = br.readLine()) != null) {
+          System.out.println(currentLine);
+        }
+      } catch (IOException ex) {
+        LOG.log(Level.SEVERE, ex.getMessage());
+      }
+
+    }
 
     chain.doFilter(request, response);
   }
