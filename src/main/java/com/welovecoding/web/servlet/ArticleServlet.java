@@ -10,6 +10,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import org.markdown4j.Markdown4jProcessor;
 
 @WebServlet(name = "ArticleServlet", urlPatterns = {"/articles/*"})
 public class ArticleServlet extends HttpServlet {
@@ -37,7 +38,8 @@ public class ArticleServlet extends HttpServlet {
         out.println("<body>");
 
         while ((currentLine = br.readLine()) != null) {
-          out.println(currentLine);
+          String html = new Markdown4jProcessor().process(currentLine);
+          out.println(html);
         }
 
         out.println("</body>");
