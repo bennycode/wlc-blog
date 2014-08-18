@@ -3,6 +3,7 @@ package com.welovecoding.web.servlet;
 import com.welovecoding.web.util.GitHubUtility;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.Map;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -40,6 +41,8 @@ public class WebHookServlet extends HttpServlet {
       String signature = servletRequest.getHeader("x-hub-signature");
       String payload = servletRequest.getParameter("payload");
       String secret = "abc123";
+      Map<String, String[]> parameterMap = servletRequest.getParameterMap();
+      System.out.println("Parameters: "+parameterMap.size());
 
       String hash = GitHubUtility.hash_hmac(payload, secret);
       System.out.println("Hash: " + hash);
