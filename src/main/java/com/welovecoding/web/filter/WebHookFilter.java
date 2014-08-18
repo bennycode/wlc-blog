@@ -23,7 +23,9 @@ public class WebHookFilter implements Filter {
     HttpServletRequest servletRequest = (HttpServletRequest) request;
     HttpServletResponse servletResponse = (HttpServletResponse) response;
 
-    LOG.log(Level.INFO, "Host: {0}", servletRequest.getServerName());
+    String host = servletRequest.getHeader("host");
+
+    LOG.log(Level.INFO, "Host: {0}", host);
 
     chain.doFilter(request, response);
   }
