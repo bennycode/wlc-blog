@@ -41,18 +41,17 @@ public class WebHookServlet extends HttpServlet {
 
     // http://isometriks.com/verify-github-webhooks-with-php
     if (userAgent.contains("GitHub-Hookshot") && event.equals("push")) {
-      /*
-       String signature = servletRequest.getHeader("x-hub-signature");
-       String payload = servletRequest.getParameter("payload");
-       String secret = "abc123";
-       Map<String, String[]> parameterMap = servletRequest.getParameterMap();
+      String signature = servletRequest.getHeader("x-hub-signature");
+      String payload = servletRequest.getParameter("payload");
+      String secret = "abc123";
+      Map<String, String[]> parameterMap = servletRequest.getParameterMap();
 
-       String hash = GitHubUtility.hash_hmac(payload, secret);
-       System.out.println("Hash: " + hash);
-       System.out.println("Verify: " + signature);
-       System.out.println("Valid? " + GitHubUtility.verifySignature(payload, signature));
-       */
       LOG.log(Level.INFO, RequestPrinter.debugString(servletRequest));
+
+      String hash = GitHubUtility.hash_hmac(payload, secret);
+      System.out.println("Hash: " + hash);
+      System.out.println("Verify: " + signature);
+      System.out.println("Valid? " + GitHubUtility.verifySignature(payload, signature));
       // System.out.println("GITHUB PAYLOAD: " + payload);
     }
 
