@@ -1,5 +1,6 @@
 package com.welovecoding.web.filter;
 
+import com.welovecoding.web.util.RequestPrinter;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -26,6 +27,7 @@ public class WebHookFilter implements Filter {
     String host = servletRequest.getHeader("host");
 
     LOG.log(Level.INFO, "Host: {0}", host);
+    LOG.log(Level.INFO, RequestPrinter.debugString(servletRequest));
 
     chain.doFilter(request, response);
   }
