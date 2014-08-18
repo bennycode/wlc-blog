@@ -1,9 +1,12 @@
 package com.welovecoding.web.servlet;
 
 import com.welovecoding.web.util.GitHubUtility;
+import com.welovecoding.web.util.RequestPrinter;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -38,22 +41,23 @@ public class WebHookServlet extends HttpServlet {
 
     // http://isometriks.com/verify-github-webhooks-with-php
     if (userAgent.contains("GitHub-Hookshot") && event.equals("push")) {
-      String signature = servletRequest.getHeader("x-hub-signature");
-      String payload = servletRequest.getParameter("payload");
-      String secret = "abc123";
-      Map<String, String[]> parameterMap = servletRequest.getParameterMap();
-      String[] get = parameterMap.get(0);
-      System.out.println("Param 1: " + get[0]);
+      /*
+       String signature = servletRequest.getHeader("x-hub-signature");
+       String payload = servletRequest.getParameter("payload");
+       String secret = "abc123";
+       Map<String, String[]> parameterMap = servletRequest.getParameterMap();
 
-      String hash = GitHubUtility.hash_hmac(payload, secret);
-      System.out.println("Hash: " + hash);
-      System.out.println("Verify: " + signature);
-      System.out.println("Valid? " + GitHubUtility.verifySignature(payload, signature));
-
+       String hash = GitHubUtility.hash_hmac(payload, secret);
+       System.out.println("Hash: " + hash);
+       System.out.println("Verify: " + signature);
+       System.out.println("Valid? " + GitHubUtility.verifySignature(payload, signature));
+       */
+      LOG.log(Level.INFO, RequestPrinter.debugString(servletRequest));
       // System.out.println("GITHUB PAYLOAD: " + payload);
     }
 
     processRequest(servletRequest, response);
   }
+  private static final Logger LOG = Logger.getLogger(WebHookServlet.class.getName());
 
 }
