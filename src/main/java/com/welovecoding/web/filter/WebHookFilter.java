@@ -24,10 +24,13 @@ public class WebHookFilter implements Filter {
     HttpServletRequest servletRequest = (HttpServletRequest) request;
     HttpServletResponse servletResponse = (HttpServletResponse) response;
 
-    String host = servletRequest.getHeader("host");
+    String userAgent = servletRequest.getHeader("user-agent");
+    String event = servletRequest.getHeader("x-github-event");
 
-    LOG.log(Level.INFO, "Host: {0}", host);
-    LOG.log(Level.INFO, RequestPrinter.debugString(servletRequest));
+    if (userAgent.contains("GitHub-Hookshot") && event.equals("push")) {
+      String payload = servletRequest.getParameter("payload");
+      System.out.println("GITHUB PAYLOAD: " + payload);
+    }
 
     chain.doFilter(request, response);
   }
