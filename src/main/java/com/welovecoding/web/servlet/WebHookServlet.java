@@ -1,5 +1,6 @@
 package com.welovecoding.web.servlet;
 
+import com.welovecoding.web.util.GitHubUtility;
 import java.io.IOException;
 import java.io.PrintWriter;
 import javax.servlet.ServletException;
@@ -34,9 +35,16 @@ public class WebHookServlet extends HttpServlet {
     String userAgent = servletRequest.getHeader("user-agent");
     String event = servletRequest.getHeader("x-github-event");
 
+    // http://isometriks.com/verify-github-webhooks-with-php
     if (userAgent.contains("GitHub-Hookshot") && event.equals("push")) {
       String payload = servletRequest.getParameter("payload");
-      System.out.println("GITHUB PAYLOAD: " + payload);
+      String privateKey = "abc123";
+
+      String hash = GitHubUtility.hash_hmac(payload, privateKey);
+      System.out.println("Hash: " + hash);
+      System.out.println("Verify: "+servletRequest.getHeader("x-hub-signature"));
+
+      // System.out.println("GITHUB PAYLOAD: " + payload);
     }
 
     processRequest(servletRequest, response);
