@@ -42,7 +42,8 @@ public class WebHookServlet extends HttpServlet {
       String payload = servletRequest.getParameter("payload");
       String secret = "abc123";
       Map<String, String[]> parameterMap = servletRequest.getParameterMap();
-      System.out.println("Parameters: "+parameterMap.size());
+      String[] get = parameterMap.get(0);
+      System.out.println("Param 1: " + get[0]);
 
       String hash = GitHubUtility.hash_hmac(payload, secret);
       System.out.println("Hash: " + hash);
