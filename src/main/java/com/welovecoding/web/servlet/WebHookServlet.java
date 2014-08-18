@@ -2,6 +2,7 @@ package com.welovecoding.web.servlet;
 
 import com.welovecoding.web.util.GitHubUtility;
 import com.welovecoding.web.util.RequestPrinter;
+import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.Map;
@@ -42,11 +43,23 @@ public class WebHookServlet extends HttpServlet {
     // http://isometriks.com/verify-github-webhooks-with-php
     if (userAgent.contains("GitHub-Hookshot") && event.equals("push")) {
       String signature = servletRequest.getHeader("x-hub-signature");
-      String payload = servletRequest.getParameter("payload");
+//      String payload = servletRequest.getParameter("payload");
       String secret = "abc123";
       Map<String, String[]> parameterMap = servletRequest.getParameterMap();
 
       LOG.log(Level.INFO, RequestPrinter.debugString(servletRequest));
+
+      // Read body
+      StringBuffer jb = new StringBuffer();
+      String line = null;
+      try {
+        BufferedReader reader = servletRequest.getReader();
+        while ((line = reader.readLine()) != null) {
+          jb.append(line);
+        }
+      } catch (Exception e) { /*report an error*/ }
+
+      String payload = jb.toString();
 
       String hash = GitHubUtility.hash_hmac(payload, secret);
       System.out.println("Hash: " + hash);
