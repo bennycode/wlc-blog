@@ -45,13 +45,14 @@ public class WebHookServlet extends HttpServlet {
   @Override
   protected void doPost(HttpServletRequest request, HttpServletResponse response)
           throws ServletException, IOException {
+    System.out.println("1");
     boolean isPushCommit = checkForPushCommit(request);
     
     if (isPushCommit) {
-      System.out.println("JA");
       handlePayload(request);
     }
     
+    System.out.println("JA");
     processRequest(request, response);
   }
   
