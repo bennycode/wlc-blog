@@ -23,7 +23,7 @@ public class WebHookServlet extends HttpServlet {
 
     try (PrintWriter out = response.getWriter()) {
       out.println("<!DOCTYPE html>");
-      out.println("<html>");//
+      out.println("<html>");
       out.println("<head>");
       out.println("<title>WebHookServlet</title>");
       out.println("</head>");
@@ -32,6 +32,11 @@ public class WebHookServlet extends HttpServlet {
       out.println("</body>");
       out.println("</html>");
     }
+  }
+
+  @Override
+  public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
+    response.sendError(HttpServletResponse.SC_METHOD_NOT_ALLOWED);
   }
 
   @Override
