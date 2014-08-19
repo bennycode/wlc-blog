@@ -23,7 +23,7 @@ public class WebHookServlet extends HttpServlet {
 
     try (PrintWriter out = response.getWriter()) {
       out.println("<!DOCTYPE html>");
-      out.println("<html>");
+      out.println("<html>");//
       out.println("<head>");
       out.println("<title>WebHookServlet</title>");
       out.println("</head>");
