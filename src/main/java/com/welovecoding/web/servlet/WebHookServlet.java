@@ -48,6 +48,7 @@ public class WebHookServlet extends HttpServlet {
     boolean isPushCommit = checkForPushCommit(request);
     
     if (isPushCommit) {
+      System.out.println("JA");
       handlePayload(request);
     }
     
