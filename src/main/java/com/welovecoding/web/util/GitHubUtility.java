@@ -8,7 +8,7 @@ import javax.crypto.Mac;
 import javax.crypto.spec.SecretKeySpec;
 
 public class GitHubUtility {
-
+//
   private static final Logger LOG = Logger.getLogger(GitHubUtility.class.getName());
   private static final String HMAC_SHA1_ALGORITHM = "HmacSHA1";
   private static final char[] HEX = {
