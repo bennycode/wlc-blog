@@ -4,6 +4,8 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -20,7 +22,14 @@ public class MarkdownMetaParser {
   public void parseStream(InputStream stream) {
     String content = readFileContent(stream);
     String metaData = parseMetadata(content);
-    extractMetadata(metaData);
+    List<MarkdownMetaData> extractedMetaData = extractMetadata(metaData);
+
+    for (MarkdownMetaData data : extractedMetaData) {
+      System.out.println("Key: " + data.getKey());
+      for (String value : data.getValues()) {
+        System.out.println("Value: " + value);
+      }
+    }
   }
 
   public String parseMetadata(String content) {
@@ -30,9 +39,9 @@ public class MarkdownMetaParser {
     return content.substring(start, end);
   }
 
-  private void extractMetadata(String metaData) {
+  private List<MarkdownMetaData> extractMetadata(String metaData) {
     String[] plainMetadatas = metaData.split(META_SEPARATOR);
-    System.out.println(plainMetadatas.length);
+    List<MarkdownMetaData> resultList = new ArrayList<>();
 
     for (String meta : plainMetadatas) {
       String[] pairs = meta.trim().split(KEY_VALUE_SEPARATOR);
@@ -44,16 +53,16 @@ public class MarkdownMetaParser {
       String key = pairs[0].trim();
       String value = pairs[1].trim().replaceAll("'", "\"");
 
-      System.out.println("Key: " + key);
-      System.out.println("Value: " + value);
-
       if (isStringifiedArray(value)) {
         String[] values = convertStringifiedArray(value);
-        for (String result : values) {
-          System.out.println("BWAH: " + result);
-        }
+        resultList.add(new MarkdownMetaData(key, values));
+      } else {
+        resultList.add(new MarkdownMetaData(key, new String[]{value}));
       }
+
     }
+
+    return resultList;
   }
 
   private String[] convertStringifiedArray(String value) {
