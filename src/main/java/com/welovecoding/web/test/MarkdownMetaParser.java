@@ -20,9 +20,8 @@ public class MarkdownMetaParser {
   private static final String LINE_BREAK = System.getProperty("line.separator", "\r\n");
 
   public void parseStream(InputStream stream) {
-    String content = readFileContent(stream);
-    String metaData = parseMetadata(content);
-    List<MarkdownMetaData> extractedMetaData = extractMetadata(metaData);
+    String metaDataString = readFileContent(stream);
+    List<MarkdownMetaData> extractedMetaData = extractMetadata(metaDataString);
 
     for (MarkdownMetaData data : extractedMetaData) {
       System.out.println("Key: " + data.getKey());
@@ -30,13 +29,6 @@ public class MarkdownMetaParser {
         System.out.println("Value: " + value);
       }
     }
-  }
-
-  public String parseMetadata(String content) {
-    int start = content.indexOf(META_START) + META_START.length();
-    int end = content.indexOf(META_END, start);
-
-    return content.substring(start, end);
   }
 
   private List<MarkdownMetaData> extractMetadata(String metaData) {
@@ -84,12 +76,23 @@ public class MarkdownMetaParser {
   private String readFileContent(InputStream stream) {
     StringBuilder sb = new StringBuilder();
     String line;
+    boolean startReading = false;
 
     // try-with-resources
     try (BufferedReader reader = new BufferedReader(new InputStreamReader(stream))) {
       while ((line = reader.readLine()) != null) {
-        sb.append(line);
-        sb.append(System.getProperty("line.separator", "\r\n"));
+        if (line.equals(META_END)) {
+          break;
+        }
+
+        if (startReading == true) {
+          sb.append(line);
+          sb.append(System.getProperty("line.separator", "\r\n"));
+        }
+
+        if (line.equals(META_START)) {
+          startReading = true;
+        }
       }
     } catch (IOException ex) {
       logError(ex);
