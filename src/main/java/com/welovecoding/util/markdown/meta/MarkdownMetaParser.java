@@ -1,39 +1,40 @@
-package com.welovecoding.web.test;
+package com.welovecoding.util.markdown.meta;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+/**
+ * Inspired by https://github.com/lichunr/markdown-meta.
+ *
+ * @author Benny
+ */
 public class MarkdownMetaParser {
 
   private static final Logger LOG = Logger.getLogger(MarkdownMetaParser.class.getName());
 
-  private static final String META_START = "<!--*";
-  private static final String META_END = "*-->";
+  public static final String META_START = "<!--*";
+  public static final String META_END = "*-->";
   private static final String META_SEPARATOR = ";";
   private static final String KEY_VALUE_SEPARATOR = ":";
-  private static final String LINE_BREAK = System.getProperty("line.separator", "\r\n");
 
-  public void parseStream(InputStream stream) {
+  public Map<String, MarkdownMetaData> parseStream(InputStream stream) {
     String metaDataString = readFileContent(stream);
-    List<MarkdownMetaData> extractedMetaData = extractMetadata(metaDataString);
+    Map<String, MarkdownMetaData> extractedMetaData = extractMetadata(metaDataString);
 
-    for (MarkdownMetaData data : extractedMetaData) {
-      System.out.println("Key: " + data.getKey());
-      for (String value : data.getValues()) {
-        System.out.println("Value: " + value);
-      }
-    }
+    return extractedMetaData;
   }
 
-  private List<MarkdownMetaData> extractMetadata(String metaData) {
+  public Map<String, MarkdownMetaData> extractMetadata(String metaData) {
     String[] plainMetadatas = metaData.split(META_SEPARATOR);
-    List<MarkdownMetaData> resultList = new ArrayList<>();
+    Map<String, MarkdownMetaData> resultList = new HashMap<>();
 
     for (String meta : plainMetadatas) {
       String[] pairs = meta.trim().split(KEY_VALUE_SEPARATOR);
@@ -47,9 +48,9 @@ public class MarkdownMetaParser {
 
       if (isStringifiedArray(value)) {
         String[] values = convertStringifiedArray(value);
-        resultList.add(new MarkdownMetaData(key, values));
+        resultList.put(key, new MarkdownMetaData(key, values));
       } else {
-        resultList.add(new MarkdownMetaData(key, new String[]{value}));
+        resultList.put(key, new MarkdownMetaData(key, new String[]{value}));
       }
 
     }

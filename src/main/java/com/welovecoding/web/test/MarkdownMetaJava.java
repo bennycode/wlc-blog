@@ -1,6 +1,9 @@
 package com.welovecoding.web.test;
 
+import com.welovecoding.util.markdown.meta.MarkdownMetaData;
+import com.welovecoding.util.markdown.meta.MarkdownMetaParser;
 import java.io.InputStream;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -20,7 +23,6 @@ public class MarkdownMetaJava {
 
     if (stream != null) {
       LOG.log(Level.INFO, "File found: {0}", filePath);
-      mp.parseStream(stream);
     } else {
       LOG.log(Level.WARNING, "File could not be found: {0}", filePath);
     }
