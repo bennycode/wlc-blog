@@ -104,7 +104,7 @@ public class WebHookServlet extends HttpServlet {
     try {
       File file = File.createTempFile("github-webhook-", ".json");
       FileWriter writer = new FileWriter(file);
-      writer.write(payload);
+      writer.write("abc");
       writer.flush();
       LOG.log(Level.INFO, "Wrote file to: {0}", file.getAbsolutePath());
     } catch (IOException ex) {
