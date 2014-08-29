@@ -54,10 +54,11 @@ public class WebHookServlet extends HttpServlet {
   @Override
   protected void doPost(HttpServletRequest request, HttpServletResponse response)
           throws ServletException, IOException {
-    String debugString = RequestPrinter.debugString(request);
-    System.out.println("Headers:");
-    System.out.println(debugString);
-
+    /*
+     String debugString = RequestPrinter.debugString(request);
+     System.out.println("Headers:");
+     System.out.println(debugString);
+     */
     boolean isPushCommit = checkForPushCommit(request);
 
     if (isPushCommit) {
@@ -83,12 +84,9 @@ public class WebHookServlet extends HttpServlet {
   }
 
   private void handlePayload(HttpServletRequest request) {
-    String projectStage = PropertyUtility.getEnvironmentEntry("projectStage");
-
     boolean isValidPayload = validatePayload(request);
-    System.out.println("projectStage: " + projectStage);
 
-    if (isValidPayload || projectStage.equals("Development")) {
+    if (isValidPayload) {
       LOG.log(Level.INFO, "Valid GitHub Webhook Payload.");
     } else {
       LOG.log(Level.WARNING, "Invalid GitHub Webhook Payload.");
@@ -99,7 +97,7 @@ public class WebHookServlet extends HttpServlet {
     String payload = readPayload(request);
     String signature = request.getHeader("x-hub-signature");
 
-    writePayloadToTempFile(payload);
+    // writePayloadToTempFile(payload);
     return GitHubUtility.verifySignature(payload, signature, WEBHOOK_SECRET);
   }
 
