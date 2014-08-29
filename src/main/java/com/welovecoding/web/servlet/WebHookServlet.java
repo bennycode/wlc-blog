@@ -95,6 +95,7 @@ public class WebHookServlet extends HttpServlet {
     String payload = readPayload(request);
     String signature = request.getHeader("x-hub-signature");
 
+    // Test
     writePayloadToTempFile(payload);
 
     return GitHubUtility.verifySignature(payload, signature, WEBHOOK_SECRET);
