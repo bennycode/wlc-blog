@@ -104,9 +104,11 @@ public class WebHookServlet extends HttpServlet {
   private void writePayloadToTempFile(String payload) {
     try {
       File file = File.createTempFile("github-webhook-", ".json");
-      FileWriter writer = new FileWriter(file);
-      writer.write(payload);
-      writer.flush();
+
+      try (FileWriter writer = new FileWriter(file)) {
+        writer.write(payload);
+      }
+
       LOG.log(Level.INFO, "Wrote file to: {0}", file.getAbsolutePath());
     } catch (IOException ex) {
       LOG.log(Level.SEVERE, "Error writing file: {0}", ex.getMessage());
