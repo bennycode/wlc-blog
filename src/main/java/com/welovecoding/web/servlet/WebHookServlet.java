@@ -1,7 +1,7 @@
 package com.welovecoding.web.servlet;
 
+import com.welovecoding.web.blog.Settings;
 import com.welovecoding.web.util.GitHubUtility;
-import com.welovecoding.web.util.PropertyUtility;
 import com.welovecoding.web.util.RequestPrinter;
 import java.io.BufferedReader;
 import java.io.File;
@@ -20,7 +20,6 @@ import javax.servlet.http.HttpServletResponse;
 public class WebHookServlet extends HttpServlet {
 
   private static final Logger LOG = Logger.getLogger(WebHookServlet.class.getName());
-  private static final String WEBHOOK_SECRET = "abc123";
 
   protected void processRequest(HttpServletRequest request, HttpServletResponse response)
           throws ServletException, IOException {
@@ -54,11 +53,9 @@ public class WebHookServlet extends HttpServlet {
   @Override
   protected void doPost(HttpServletRequest request, HttpServletResponse response)
           throws ServletException, IOException {
-    /*
-     String debugString = RequestPrinter.debugString(request);
-     System.out.println("Headers:");
-     System.out.println(debugString);
-     */
+    String debugString = RequestPrinter.debugString(request);
+    System.out.println("Headers:");
+    System.out.println(debugString);
     boolean isPushCommit = checkForPushCommit(request);
 
     if (isPushCommit) {
@@ -97,8 +94,9 @@ public class WebHookServlet extends HttpServlet {
     String payload = readPayload(request);
     String signature = request.getHeader("x-hub-signature");
 
-    // writePayloadToTempFile(payload);
-    return GitHubUtility.verifySignature(payload, signature, WEBHOOK_SECRET);
+    writePayloadToTempFile(payload);
+
+    return GitHubUtility.verifySignature(payload, signature, Settings.WEBHOOK_SECRET);
   }
 
   private void writePayloadToTempFile(String payload) {
