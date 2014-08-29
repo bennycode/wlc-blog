@@ -1,6 +1,7 @@
 package com.welovecoding.web.servlet;
 
 import com.welovecoding.web.util.GitHubUtility;
+import com.welovecoding.web.util.PropertyUtility;
 import com.welovecoding.web.util.RequestPrinter;
 import java.io.BufferedReader;
 import java.io.File;
@@ -82,9 +83,12 @@ public class WebHookServlet extends HttpServlet {
   }
 
   private void handlePayload(HttpServletRequest request) {
-    boolean isValidPayload = validatePayload(request);
+    String projectStage = PropertyUtility.getEnvironmentEntry("projectStage");
 
-    if (isValidPayload) {
+    boolean isValidPayload = validatePayload(request);
+    System.out.println("projectStage: " + projectStage);
+
+    if (isValidPayload || projectStage.equals("Development")) {
       LOG.log(Level.INFO, "Valid GitHub Webhook Payload.");
     } else {
       LOG.log(Level.WARNING, "Invalid GitHub Webhook Payload.");
@@ -95,9 +99,7 @@ public class WebHookServlet extends HttpServlet {
     String payload = readPayload(request);
     String signature = request.getHeader("x-hub-signature");
 
-    // Test
     writePayloadToTempFile(payload);
-
     return GitHubUtility.verifySignature(payload, signature, WEBHOOK_SECRET);
   }
 
