@@ -1,7 +1,10 @@
 package com.welovecoding.web.servlet;
 
 import com.welovecoding.web.util.GitHubUtility;
+import com.welovecoding.web.util.RequestPrinter;
 import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.logging.Level;
@@ -50,6 +53,10 @@ public class WebHookServlet extends HttpServlet {
   @Override
   protected void doPost(HttpServletRequest request, HttpServletResponse response)
           throws ServletException, IOException {
+    String debugString = RequestPrinter.debugString(request);
+    System.out.println("Headers:");
+    System.out.println(debugString);
+
     boolean isPushCommit = checkForPushCommit(request);
 
     if (isPushCommit) {
@@ -88,7 +95,20 @@ public class WebHookServlet extends HttpServlet {
     String payload = readPayload(request);
     String signature = request.getHeader("x-hub-signature");
 
+    writePayloadToTempFile(payload);
+
     return GitHubUtility.verifySignature(payload, signature, WEBHOOK_SECRET);
+  }
+
+  private void writePayloadToTempFile(String payload) {
+    try {
+      File file = File.createTempFile("github-webhook-", ".json");
+      FileWriter writer = new FileWriter(file);
+      writer.write(payload);
+      LOG.log(Level.INFO, "Wrote file to: {0}", file.getAbsolutePath());
+    } catch (IOException ex) {
+      LOG.log(Level.SEVERE, "Error writing file: {0}", ex.getMessage());
+    }
   }
 
   private String readPayload(HttpServletRequest request) {
