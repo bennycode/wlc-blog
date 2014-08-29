@@ -1,7 +1,6 @@
 package com.welovecoding.web.servlet;
 
 import com.welovecoding.web.util.GitHubUtility;
-import com.welovecoding.web.util.RequestPrinter;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -51,9 +50,6 @@ public class WebHookServlet extends HttpServlet {
   @Override
   protected void doPost(HttpServletRequest request, HttpServletResponse response)
           throws ServletException, IOException {
-    String debugString = RequestPrinter.debugString(request);
-    System.out.println(debugString);
-
     boolean isPushCommit = checkForPushCommit(request);
 
     if (isPushCommit) {
@@ -100,8 +96,6 @@ public class WebHookServlet extends HttpServlet {
 
     try {
       payload = getRequestBody(request);
-      System.out.println("YEAH:");
-      System.out.println(payload);
     } catch (IOException ex) {
       logError(ex);
     }
