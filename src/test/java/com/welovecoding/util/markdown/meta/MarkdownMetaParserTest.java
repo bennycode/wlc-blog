@@ -2,6 +2,7 @@ package com.welovecoding.util.markdown.meta;
 
 import java.io.InputStream;
 import java.util.Map;
+import org.eclipse.jgit.api.Git;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;

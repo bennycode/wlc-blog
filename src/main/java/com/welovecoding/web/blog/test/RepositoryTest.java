@@ -1,6 +1,6 @@
-package com.welovecoding.web.test;
+package com.welovecoding.web.blog.test;
 
-import com.welovecoding.web.blog.Octocat;
+import com.welovecoding.web.blog.git.Octocat;
 
 public class RepositoryTest {
 

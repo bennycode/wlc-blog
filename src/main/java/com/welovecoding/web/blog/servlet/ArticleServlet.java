@@ -1,7 +1,7 @@
-package com.welovecoding.web.servlet;
+package com.welovecoding.web.blog.servlet;
 
-import com.welovecoding.util.markdown.meta.MarkdownMetaData;
-import com.welovecoding.util.markdown.meta.MarkdownMetaParser;
+import com.welovecoding.web.blog.markdown.meta.MarkdownMetaData;
+import com.welovecoding.web.blog.markdown.meta.MarkdownMetaParser;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.PrintWriter;

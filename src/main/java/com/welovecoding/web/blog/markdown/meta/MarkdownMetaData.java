@@ -1,4 +1,4 @@
-package com.welovecoding.util.markdown.meta;
+package com.welovecoding.web.blog.markdown.meta;
 
 public class MarkdownMetaData {
 

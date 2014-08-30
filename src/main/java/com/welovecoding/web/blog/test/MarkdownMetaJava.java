@@ -1,7 +1,7 @@
-package com.welovecoding.web.test;
+package com.welovecoding.web.blog.test;
 
-import com.welovecoding.util.markdown.meta.MarkdownMetaData;
-import com.welovecoding.util.markdown.meta.MarkdownMetaParser;
+import com.welovecoding.web.blog.markdown.meta.MarkdownMetaData;
+import com.welovecoding.web.blog.markdown.meta.MarkdownMetaParser;
 import java.io.InputStream;
 import java.util.List;
 import java.util.logging.Level;

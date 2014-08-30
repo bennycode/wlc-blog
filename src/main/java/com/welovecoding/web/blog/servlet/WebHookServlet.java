@@ -1,8 +1,9 @@
-package com.welovecoding.web.servlet;
+package com.welovecoding.web.blog.servlet;
 
 import com.welovecoding.web.blog.Settings;
-import com.welovecoding.web.util.GitHubUtility;
-import com.welovecoding.web.util.RequestPrinter;
+import com.welovecoding.web.blog.github.WebhookMapper;
+import com.welovecoding.web.blog.util.GitHubUtility;
+import com.welovecoding.web.blog.util.RequestPrinter;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileWriter;
@@ -15,11 +16,13 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import org.json.JSONObject;
 
 @WebServlet(name = "WebHookServlet", urlPatterns = {"/webhook/*"})
 public class WebHookServlet extends HttpServlet {
 
   private static final Logger LOG = Logger.getLogger(WebHookServlet.class.getName());
+  private String payload;
 
   protected void processRequest(HttpServletRequest request, HttpServletResponse response)
           throws ServletException, IOException {
@@ -56,6 +59,7 @@ public class WebHookServlet extends HttpServlet {
     String debugString = RequestPrinter.debugString(request);
     System.out.println("Headers:");
     System.out.println(debugString);
+
     boolean isPushCommit = checkForPushCommit(request);
 
     if (isPushCommit) {
@@ -85,13 +89,23 @@ public class WebHookServlet extends HttpServlet {
 
     if (isValidPayload) {
       LOG.log(Level.INFO, "Valid GitHub Webhook Payload.");
+      System.out.println("Output: " + payload);
+
+      WebhookMapper mapper = new WebhookMapper(payload);
+      mapper.map();
+
+      // Process Payload
+      // Pull files in Git
+      // Parse files in Git
+      // Write information to database
     } else {
       LOG.log(Level.WARNING, "Invalid GitHub Webhook Payload.");
     }
+
   }
 
   private boolean validatePayload(HttpServletRequest request) {
-    String payload = readPayload(request);
+    readPayload(request);
     String signature = request.getHeader("x-hub-signature");
 
     writePayloadToTempFile(payload);
@@ -114,7 +128,7 @@ public class WebHookServlet extends HttpServlet {
   }
 
   private String readPayload(HttpServletRequest request) {
-    String payload = "";
+    this.payload = "";
 
     try {
       payload = getRequestBody(request);

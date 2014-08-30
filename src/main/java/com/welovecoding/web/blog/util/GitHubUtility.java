@@ -1,4 +1,4 @@
-package com.welovecoding.web.util;
+package com.welovecoding.web.blog.util;
 
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;

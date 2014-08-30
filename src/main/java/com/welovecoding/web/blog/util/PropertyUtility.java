@@ -1,4 +1,4 @@
-package com.welovecoding.web.util;
+package com.welovecoding.web.blog.util;
 
 import javax.naming.Context;
 import javax.naming.InitialContext;
