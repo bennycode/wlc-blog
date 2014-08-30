@@ -22,9 +22,9 @@ import org.eclipse.jgit.transport.FetchResult;
  *
  * @author Benny
  */
-public class Octocat {
+public class GitController {
 
-  private static final Logger LOG = Logger.getLogger(Octocat.class.getName());
+  private static final Logger LOG = Logger.getLogger(GitController.class.getName());
 
   public void checkoutRepository() {
 

@@ -1,6 +1,7 @@
 package com.welovecoding.web.blog.servlet;
 
 import com.welovecoding.web.blog.Settings;
+import com.welovecoding.web.blog.github.WebhookInfo;
 import com.welovecoding.web.blog.github.WebhookMapper;
 import com.welovecoding.web.blog.util.GitHubUtility;
 import com.welovecoding.web.blog.util.RequestPrinter;
@@ -16,7 +17,6 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import org.json.JSONObject;
 
 @WebServlet(name = "WebHookServlet", urlPatterns = {"/webhook/*"})
 public class WebHookServlet extends HttpServlet {
@@ -92,8 +92,10 @@ public class WebHookServlet extends HttpServlet {
       System.out.println("Output: " + payload);
 
       WebhookMapper mapper = new WebhookMapper(payload);
-      mapper.map();
-
+      WebhookInfo info = mapper.map();
+      
+      System.out.println(info.getLocalRepositoryPath());
+      
       // Process Payload
       // Pull files in Git
       // Parse files in Git
@@ -108,7 +110,7 @@ public class WebHookServlet extends HttpServlet {
     readPayload(request);
     String signature = request.getHeader("x-hub-signature");
 
-    writePayloadToTempFile(payload);
+    // writePayloadToTempFile(payload);
 
     return GitHubUtility.verifySignature(payload, signature, Settings.WEBHOOK_SECRET);
   }

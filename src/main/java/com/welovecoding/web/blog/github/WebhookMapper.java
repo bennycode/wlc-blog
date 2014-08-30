@@ -1,5 +1,6 @@
 package com.welovecoding.web.blog.github;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 import org.json.JSONArray;
@@ -8,7 +9,6 @@ import org.json.JSONObject;
 public class WebhookMapper {
 
   private JSONObject json;
-  private WebhookInfo info;
 
   public WebhookMapper(String payload) {
     this(new JSONObject(payload));
@@ -16,17 +16,41 @@ public class WebhookMapper {
 
   public WebhookMapper(JSONObject json) {
     this.json = json;
-    this.info = new WebhookInfo();
   }
 
-  public void map() {
+  public WebhookInfo map() {
 
-    String reference = parseReference();
-    String credential = parseCommitterEmail();
+    WebhookInfo info = new WebhookInfo();
 
-    List<String> modifiedFiles = parseModifiedFiles();
+    info.setCredential(parseCommitterEmail());
+    info.setLocalRepositoryPath(createLocalRepositoryPath());
+    info.setModifiedFiles(parseModifiedFiles());
+    info.setMovedFiles(new ArrayList<String>());
+    info.setReference(parseReference());
+    info.setRemovedFiles(parseRemovedFiles());
+    info.setRepositoryName(parseRepositoryName());
+    info.setRepositoryUrl(parseRepositoryUrl());
+    info.setUntrackedFiles(parseAddedFiles());
 
-    System.out.println(modifiedFiles.get(0));
+    return info;
+
+  }
+
+  protected String createLocalRepositoryPath() {
+    String home = System.getProperty("user.home");
+    String name = parseRepositoryName();
+    File path = new File(home + System.getProperty("file.separator") + name);
+    return path.getAbsolutePath();
+  }
+
+  private String parseRepositoryName() {
+    JSONObject repository = json.getJSONObject("repository");
+    return repository.get("name").toString();
+  }
+
+  private String parseRepositoryUrl() {
+    JSONObject repository = json.getJSONObject("repository");
+    return repository.get("url").toString();
   }
 
   private String parseReference() {
@@ -43,9 +67,21 @@ public class WebhookMapper {
   }
 
   private List<String> parseModifiedFiles() {
+    return parseFiles("modified");
+  }
+
+  private List<String> parseAddedFiles() {
+    return parseFiles("added");
+  }
+
+  private List<String> parseRemovedFiles() {
+    return parseFiles("removed");
+  }
+
+  private List<String> parseFiles(String attribute) {
     JSONArray commits = json.getJSONArray("commits");
     JSONObject commitInfo = commits.getJSONObject(0);
-    JSONArray modified = commitInfo.getJSONArray("modified");
+    JSONArray modified = commitInfo.getJSONArray(attribute);
     return convertIntoList(modified);
   }
 
