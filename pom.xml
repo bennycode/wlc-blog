@@ -77,11 +77,14 @@
           </excludes>
         </configuration>
         <executions>
+          
           <execution>
+            <id>amend-unit-test-java-agent-option</id>
             <goals>
               <goal>prepare-agent</goal>
             </goals>
           </execution>
+          
           <execution>
             <id>report</id>
             <phase>prepare-package</phase>
@@ -89,7 +92,23 @@
               <goal>report</goal>
             </goals>
           </execution>
+          
         </executions>
+      </plugin>
+      
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-site-plugin</artifactId>
+        <version>3.4</version>
+        <configuration>
+          <!-- http://sourceforge.net/p/eclemma/bugs/105/ -->
+          <reportPlugins>
+            <plugin>
+              <groupId>org.jacoco</groupId>
+              <artifactId>jacoco-maven-plugin</artifactId>
+            </plugin>
+          </reportPlugins>
+        </configuration>
       </plugin>
       
       <plugin>
@@ -137,11 +156,15 @@
           </execution>
         </executions>
       </plugin>
+      
+     
     </plugins>
   </build>
   
   <reporting>
     <outputDirectory>${project.build.directory}/site</outputDirectory>
+    <!-- https://github.com/jacoco/jacoco/issues/33 -->
+    <excludeDefaults>true</excludeDefaults>
   </reporting>
 
 </project>
