@@ -2,6 +2,7 @@
 <!-- 
   http://maven.apache.org/pom.html#Quick_Overview
   http://maven.apache.org/guides/mini/guide-naming-conventions.html
+  Lifecycle: http://maven.apache.org/ref/3.2.3/maven-core/lifecycles.html
 -->
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
@@ -65,6 +66,32 @@
   <!-- Build Settings -->
   <build>
     <plugins>
+      <!-- JaCoCo Code Coverage Library -->
+      <plugin>
+        <groupId>org.jacoco</groupId>
+        <artifactId>jacoco-maven-plugin</artifactId>
+        <version>0.7.1.201405082137</version>
+        <configuration>
+          <excludes>
+            <exclude>com/welovecoding/web/blog/test/**/*.class</exclude>
+          </excludes>
+        </configuration>
+        <executions>
+          <execution>
+            <goals>
+              <goal>prepare-agent</goal>
+            </goals>
+          </execution>
+          <execution>
+            <id>report</id>
+            <phase>prepare-package</phase>
+            <goals>
+              <goal>report</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+      
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-compiler-plugin</artifactId>
@@ -115,42 +142,6 @@
   
   <reporting>
     <outputDirectory>${project.build.directory}/site</outputDirectory>
-    <plugins>
-      <!-- Maven Project Info Reports Plugin -->
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-project-info-reports-plugin</artifactId>
-        <version>2.7</version>
-        <configuration>
-          <dependencyLocationsEnabled>false</dependencyLocationsEnabled>
-        </configuration>
-      </plugin>
-      <!-- Cobertura Code Coverage Plugin -->
-      <plugin>
-        <groupId>org.codehaus.mojo</groupId>
-        <artifactId>cobertura-maven-plugin</artifactId>
-        <version>2.6</version>
-        <configuration>
-          <instrumentation>
-            <!-- 
-              Maven cobertura plugin, does not respect exclude tags for report 
-              generation: http://jira.codehaus.org/browse/MCOBERTURA-52
-            -->
-            <ignores>
-              <ignore>com.welovecoding.web.blog.test.*</ignore>
-            </ignores>
-            <excludes>
-              <exclude>com/welovecoding/web/blog/test/**/*.class</exclude>
-            </excludes>
-            <ignoreTrivial>true</ignoreTrivial>
-          </instrumentation>
-          <formats>
-            <format>html</format>
-            <format>xml</format>
-          </formats>
-        </configuration>
-      </plugin>
-    </plugins>
   </reporting>
 
 </project>
