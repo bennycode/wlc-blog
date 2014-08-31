@@ -1,4 +1,4 @@
-package com.welovecoding.web.blog;
+package com.welovecoding.web.blog.settings;
 
 public class Settings {
 

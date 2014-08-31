@@ -1,9 +1,10 @@
 package com.welovecoding.web.blog.servlet;
 
-import com.welovecoding.web.blog.Settings;
+import com.welovecoding.web.blog.settings.Settings;
+import com.welovecoding.web.blog.git.GitHubController;
 import com.welovecoding.web.blog.github.WebhookInfo;
 import com.welovecoding.web.blog.github.WebhookMapper;
-import com.welovecoding.web.blog.util.GitHubUtility;
+import com.welovecoding.web.blog.util.CryptographyUtility;
 import com.welovecoding.web.blog.util.RequestPrinter;
 import java.io.BufferedReader;
 import java.io.File;
@@ -18,10 +19,10 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-@WebServlet(name = "WebHookServlet", urlPatterns = {"/webhook/*"})
-public class WebHookServlet extends HttpServlet {
+@WebServlet(name = "WebhookServlet", urlPatterns = {"/webhook/*"})
+public class WebhookServlet extends HttpServlet {
 
-  private static final Logger LOG = Logger.getLogger(WebHookServlet.class.getName());
+  private static final Logger LOG = Logger.getLogger(WebhookServlet.class.getName());
   private String payload;
 
   protected void processRequest(HttpServletRequest request, HttpServletResponse response)
@@ -96,8 +97,9 @@ public class WebHookServlet extends HttpServlet {
       WebhookInfo info = mapper.map();
 
       // Pull files in Git
-      
-      
+      GitHubController ghc = new GitHubController(info);
+      ghc.process();
+
       // Parse files in Git
       // Write information to database
     } else {
@@ -111,7 +113,7 @@ public class WebHookServlet extends HttpServlet {
     String signature = request.getHeader("x-hub-signature");
 
     // writePayloadToTempFile(payload);
-    return GitHubUtility.verifySignature(payload, signature, Settings.WEBHOOK_SECRET);
+    return CryptographyUtility.verifySignature(payload, signature, Settings.WEBHOOK_SECRET);
   }
 
   private void writePayloadToTempFile(String payload) {
