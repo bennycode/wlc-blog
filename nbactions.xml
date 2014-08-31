@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <actions>
         <action>
-            <actionName>CUSTOM-Generate Code Coverage</actionName>
-            <displayName>Generate Code Coverage</displayName>
+            <actionName>CUSTOM-Generate Maven Site</actionName>
+            <displayName>Generate Maven Site</displayName>
             <goals>
                 <goal>site</goal>
             </goals>
