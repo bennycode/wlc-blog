@@ -77,14 +77,12 @@
           </excludes>
         </configuration>
         <executions>
-          
           <execution>
             <id>amend-unit-test-java-agent-option</id>
             <goals>
               <goal>prepare-agent</goal>
             </goals>
           </execution>
-          
           <execution>
             <id>report</id>
             <phase>prepare-package</phase>
@@ -92,7 +90,6 @@
               <goal>report</goal>
             </goals>
           </execution>
-          
         </executions>
       </plugin>
       
@@ -123,6 +120,7 @@
           </compilerArguments>
         </configuration>
       </plugin>
+      
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-war-plugin</artifactId>
@@ -131,6 +129,7 @@
           <failOnMissingWebXml>false</failOnMissingWebXml>
         </configuration>
       </plugin>
+      
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-dependency-plugin</artifactId>
@@ -156,7 +155,6 @@
           </execution>
         </executions>
       </plugin>
-      
      
     </plugins>
   </build>
