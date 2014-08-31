@@ -1,4 +1,4 @@
-package com.welovecoding.web.blog.git;
+package com.welovecoding.web.blog.util;
 
 import com.welovecoding.web.blog.Settings;
 import java.io.File;
@@ -22,23 +22,19 @@ import org.eclipse.jgit.transport.FetchResult;
  *
  * @author Benny
  */
-public class GitController {
+public class GitUtility {
 
-  private static final Logger LOG = Logger.getLogger(GitController.class.getName());
+  private static final Logger LOG = Logger.getLogger(GitUtility.class.getName());
 
-  public void checkoutRepository() {
-
-    File directory = getRepositoryDirectory();
+  public boolean checkoutRepository(File directory) {
     Git git = getGitRepository(directory);
 
-    System.out.println(directory.getAbsoluteFile());
-
     boolean wasPulled = gitPull(git);
-    System.out.println("wasPulled: " + wasPulled);
 
     git.getRepository().close();
     git.close();
 
+    return wasPulled;
   }
 
   private Git getGitRepository(File directory) {
@@ -113,7 +109,7 @@ public class GitController {
       repository = builder.build();
       ObjectId revision = repository.resolve(Constants.HEAD);
       if (revision != null) {
-        LOG.log(Level.INFO, "Commit: https://github.com/bennyn/wlc-blog/commit/{0}", revision.toObjectId().getName());
+        LOG.log(Level.INFO, "Commit: {0}", revision.toObjectId().getName());
       } else {
         // TODO: Throw error
         LOG.log(Level.SEVERE, "HEAD cannot be found. Maybe we should update the HEAD to 'refs/heads/master'.");

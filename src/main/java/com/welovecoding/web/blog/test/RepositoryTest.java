@@ -1,11 +1,11 @@
 package com.welovecoding.web.blog.test;
 
-import com.welovecoding.web.blog.git.GitController;
+import com.welovecoding.web.blog.util.GitUtility;
 
 public class RepositoryTest {
 
   public static void main(String[] args) throws Exception {
-    GitController cat = new GitController();
+    GitUtility cat = new GitUtility();
     cat.checkoutRepository();
   }
 

@@ -91,13 +91,13 @@ public class WebHookServlet extends HttpServlet {
       LOG.log(Level.INFO, "Valid GitHub Webhook Payload.");
       System.out.println("Output: " + payload);
 
+      // Process Payload
       WebhookMapper mapper = new WebhookMapper(payload);
       WebhookInfo info = mapper.map();
-      
-      System.out.println(info.getLocalRepositoryPath());
-      
-      // Process Payload
+
       // Pull files in Git
+      
+      
       // Parse files in Git
       // Write information to database
     } else {
@@ -111,7 +111,6 @@ public class WebHookServlet extends HttpServlet {
     String signature = request.getHeader("x-hub-signature");
 
     // writePayloadToTempFile(payload);
-
     return GitHubUtility.verifySignature(payload, signature, Settings.WEBHOOK_SECRET);
   }
 
