@@ -1,7 +1,9 @@
 package com.welovecoding.web.blog.servlet;
 
+import com.welovecoding.web.blog.author.AuthorService;
 import java.io.IOException;
 import java.io.PrintWriter;
+import javax.ejb.EJB;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -11,10 +13,14 @@ import javax.servlet.http.HttpServletResponse;
 @WebServlet(name = "TestServlet", urlPatterns = {"/test"})
 public class TestServlet extends HttpServlet {
 
+  @EJB
+  private AuthorService service;
+
   protected void processRequest(HttpServletRequest request, HttpServletResponse response)
           throws ServletException, IOException {
-    
-    
+
+    service.saveTestAuthor();
+
     response.setContentType("text/html;charset=UTF-8");
     try (PrintWriter out = response.getWriter()) {
       out.println("<!DOCTYPE html>");
