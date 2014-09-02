@@ -9,7 +9,7 @@ import javax.persistence.TypedQuery;
 @Stateless
 public class AuthorRepository {
 
-  @PersistenceContext(unitName = "wlc-blog-persistence-unit")
+  @PersistenceContext(unitName = "WeLoveCodingBlogPersistenceUnit")
   EntityManager em;
 
   public void save(Author author) {

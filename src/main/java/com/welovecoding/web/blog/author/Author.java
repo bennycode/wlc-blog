@@ -5,6 +5,8 @@ import static com.welovecoding.web.blog.author.Author.ORDER_BY_NAME;
 import java.io.Serializable;
 import java.util.Calendar;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
@@ -25,6 +27,7 @@ public class Author implements Serializable {
   public static final String ORDER_BY_NAME = "Author.orderByName";
 
   @Id
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
 
   @Size(min = 0, max = 255)
@@ -44,7 +47,7 @@ public class Author implements Serializable {
     this.name = name;
     this.registered = registered;
   }
-  
+
   public Long getId() {
     return id;
   }
