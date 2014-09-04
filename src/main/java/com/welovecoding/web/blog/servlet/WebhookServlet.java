@@ -1,5 +1,6 @@
 package com.welovecoding.web.blog.servlet;
 
+import com.welovecoding.web.blog.domain.article.ArticleMapper;
 import com.welovecoding.web.blog.git.GitHubController;
 import com.welovecoding.web.blog.github.WebhookInfo;
 import com.welovecoding.web.blog.github.WebhookMapper;
@@ -103,9 +104,12 @@ public class WebhookServlet extends HttpServlet {
       boolean isProcessed = ghc.process();
 
       if (isProcessed) {
-        for (String relativeFilePath : ghc.webhook.getModifiedFiles()) {
-          Path filePath = Paths.get(ghc.webhook.getLocalRepositoryPath(), relativeFilePath);
-          System.out.println("File: " + filePath.toAbsolutePath());
+        String repositoryPath = ghc.webhook.getLocalRepositoryPath();
+
+        for (String filePath : ghc.webhook.getModifiedFiles()) {
+          // TODO: Parse file to Article Entity
+          ArticleMapper.mapArticle(repositoryPath, filePath);
+          // Store information in Database
         }
       }
 
