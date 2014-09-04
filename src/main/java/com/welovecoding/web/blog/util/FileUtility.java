@@ -19,6 +19,11 @@ public class FileUtility {
     return readFileContent(file);
   }
 
+  public static String readFileContent(String absolutePath) {
+    File file = new File(absolutePath);
+    return readFileContent(file);
+  }
+
   public static String readFileContent(File file) {
     String result = "";
 

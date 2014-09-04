@@ -8,9 +8,11 @@ public class ArticleMapper {
 
   public static void mapArticle(String repositoryPath, String filePath) {
     Path path = Paths.get(repositoryPath, filePath);
-    String rawContent = FileUtility.readFileContent(path);
-    System.out.println("Raw Content:");
-    System.out.println(rawContent);
+    String absolutePath = path.toAbsolutePath().toString();
+    if (absolutePath.endsWith(".md")) {
+      String rawContent = FileUtility.readFileContent(path);
+      System.out.println(rawContent);
+    }
   }
 
 }
