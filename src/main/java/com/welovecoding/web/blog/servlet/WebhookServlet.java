@@ -103,10 +103,9 @@ public class WebhookServlet extends HttpServlet {
       boolean isProcessed = ghc.process();
 
       if (isProcessed) {
-        for (String path : ghc.webhook.getModifiedFiles()) {
-          System.out.println("File: " + path);
-          Path inputPath = Paths.get(ghc.webhook.getLocalRepositoryPath(), path);
-          System.out.println("File: " + inputPath.toAbsolutePath());
+        for (String relativeFilePath : ghc.webhook.getModifiedFiles()) {
+          Path filePath = Paths.get(ghc.webhook.getLocalRepositoryPath(), relativeFilePath);
+          System.out.println("File: " + filePath.toAbsolutePath());
         }
       }
 
