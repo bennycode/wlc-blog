@@ -1,4 +1,4 @@
-package com.welovecoding.web.blog.entity;
+package com.welovecoding.web.blog.domain.article;
 
 import java.io.Serializable;
 import java.util.Calendar;

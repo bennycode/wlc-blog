@@ -1,4 +1,4 @@
-package com.welovecoding.web.blog.author;
+package com.welovecoding.web.blog.domain.author;
 
 import java.util.GregorianCalendar;
 import javax.ejb.EJB;

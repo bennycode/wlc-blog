@@ -1,7 +1,7 @@
-package com.welovecoding.web.blog.author;
+package com.welovecoding.web.blog.domain.author;
 
-import static com.welovecoding.web.blog.author.Author.FIND_ALL;
-import static com.welovecoding.web.blog.author.Author.ORDER_BY_NAME;
+import static com.welovecoding.web.blog.domain.author.Author.FIND_ALL;
+import static com.welovecoding.web.blog.domain.author.Author.ORDER_BY_NAME;
 import java.io.Serializable;
 import java.util.Calendar;
 import javax.persistence.Entity;

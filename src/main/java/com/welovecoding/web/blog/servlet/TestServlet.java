@@ -1,6 +1,6 @@
 package com.welovecoding.web.blog.servlet;
 
-import com.welovecoding.web.blog.author.AuthorService;
+import com.welovecoding.web.blog.domain.author.AuthorService;
 import java.io.IOException;
 import java.io.PrintWriter;
 import javax.ejb.EJB;

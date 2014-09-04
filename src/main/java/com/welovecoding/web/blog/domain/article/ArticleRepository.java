@@ -1,4 +1,4 @@
-package com.welovecoding.web.blog.repository;
+package com.welovecoding.web.blog.domain.article;
 
 public class ArticleRepository {
 
