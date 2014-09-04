@@ -98,7 +98,13 @@ public class WebhookServlet extends HttpServlet {
 
       // Pull files in Git
       GitHubController ghc = new GitHubController(info);
-      ghc.process();
+      boolean isProcessed = ghc.process();
+
+      if (isProcessed) {
+        for (String path : ghc.webhook.getModifiedFiles()) {
+          System.out.println("File: " + path);
+        }
+      }
 
       // Parse files in Git
       // Write information to database

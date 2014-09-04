@@ -9,31 +9,34 @@ import java.util.logging.Logger;
 public class GitHubController {
 
   private static final Logger LOG = Logger.getLogger(GitHubController.class.getName());
-  private WebhookInfo webhook;
+  public WebhookInfo webhook;
 
   public GitHubController(WebhookInfo webhook) {
     this.webhook = webhook;
   }
 
-  public void process() {
+  public boolean process() {
     String remotePath = webhook.getRepositoryUrl();
     String localPath = webhook.getLocalRepositoryPath();
 
-    updateRepository(remotePath, localPath);
+    return updateRepository(remotePath, localPath);
   }
 
-  private void updateRepository(String repositoryUrl, String localRepositoryPath) {
+  private boolean updateRepository(String repositoryUrl, String localRepositoryPath) {
     GitHelper gh = new GitHelper();
+    boolean wasSuccessful = false;
 
     try {
       gh.init(repositoryUrl, localRepositoryPath);
       if (gh.pull()) {
         LOG.log(Level.INFO, "Successfully updated Git repository.");
+        wasSuccessful = true;
       }
     } catch (GitInitializationException | GitPullException ex) {
       LOG.log(Level.SEVERE, "Error during Git pull: {0}", ex.getMessage());
     } finally {
       gh.close();
+      return wasSuccessful;
     }
   }
 
