@@ -1,9 +1,9 @@
 package com.welovecoding.web.blog.servlet;
 
-import com.welovecoding.web.blog.settings.Settings;
 import com.welovecoding.web.blog.git.GitHubController;
 import com.welovecoding.web.blog.github.WebhookInfo;
 import com.welovecoding.web.blog.github.WebhookMapper;
+import com.welovecoding.web.blog.settings.Settings;
 import com.welovecoding.web.blog.util.CryptographyUtility;
 import com.welovecoding.web.blog.util.RequestPrinter;
 import java.io.BufferedReader;
@@ -11,6 +11,8 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.servlet.ServletException;
@@ -103,6 +105,8 @@ public class WebhookServlet extends HttpServlet {
       if (isProcessed) {
         for (String path : ghc.webhook.getModifiedFiles()) {
           System.out.println("File: " + path);
+          Path inputPath = Paths.get(ghc.webhook.getLocalRepositoryPath(), path);
+          System.out.println("File: " + inputPath.toAbsolutePath());
         }
       }
 
