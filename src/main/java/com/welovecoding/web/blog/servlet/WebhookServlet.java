@@ -24,6 +24,7 @@ import javax.servlet.http.HttpServletResponse;
 public class WebhookServlet extends HttpServlet {
 
   private static final Logger LOG = Logger.getLogger(WebhookServlet.class.getName());
+  private final GitHubController gitHubController = new GitHubController();
   private final WebhookMapper mapper = new WebhookMapper();
   private String payload;
 
@@ -98,20 +99,11 @@ public class WebhookServlet extends HttpServlet {
       WebhookInfo info = mapper.map(payload);
 
       // Pull files in Git
-      GitHubController ghc = new GitHubController(info);
-      boolean isProcessed = ghc.process();
-
-      if (isProcessed) {
-        String repositoryPath = ghc.webhook.getLocalRepositoryPath();
-
-        for (String filePath : ghc.webhook.getModifiedFiles()) {
-          // TODO: Parse file to Article Entity
-          ArticleMapper.mapArticle(repositoryPath, filePath);
-          // Store information in Database
-        }
-      }
+      boolean isProcessed = gitHubController.process(info);
 
       // Parse files in Git
+      
+      
       // Write information to database
     } else {
       LOG.log(Level.WARNING, "Invalid GitHub Webhook Payload.");

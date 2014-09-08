@@ -9,13 +9,11 @@ import java.util.logging.Logger;
 public class GitHubController {
 
   private static final Logger LOG = Logger.getLogger(GitHubController.class.getName());
-  public WebhookInfo webhook;
 
-  public GitHubController(WebhookInfo webhook) {
-    this.webhook = webhook;
+  public GitHubController() {
   }
 
-  public boolean process() {
+  public boolean process(WebhookInfo webhook) {
     String remotePath = webhook.getRepositoryUrl();
     String localPath = webhook.getLocalRepositoryPath();
 
@@ -36,8 +34,9 @@ public class GitHubController {
       LOG.log(Level.SEVERE, "Error during Git pull: {0}", ex.getMessage());
     } finally {
       gh.close();
-      return wasSuccessful;
     }
+
+    return wasSuccessful;
   }
 
 }
