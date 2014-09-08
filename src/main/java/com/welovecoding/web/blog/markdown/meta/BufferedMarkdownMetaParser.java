@@ -41,10 +41,11 @@ public class BufferedMarkdownMetaParser {
     if (keyValuePair.length > 1) {
       key = keyValuePair[0].trim();
       value = keyValuePair[1].trim().replaceAll("'", "\"");
+    } else {
+      return;
     }
 
     if (isArray(value)) {
-      System.out.println("IS ARRAY");
       String[] values = convertValueArray(value);
       data.put(key, new MarkdownMetaData(key, values));
     } else {
@@ -61,7 +62,6 @@ public class BufferedMarkdownMetaParser {
     String values = valueArray.substring(1, valueArray.length() - 1);
     String[] splitted = values.split(",");
     String[] results = new String[splitted.length];
-    System.out.println(splitted.length);
 
     for (int i = 0; i < results.length; i++) {
       results[i] = splitted[i].replace("\"", "").trim();
