@@ -8,56 +8,54 @@ import org.json.JSONObject;
 
 public class WebhookMapper {
 
-  private JSONObject json;
-
-  public WebhookMapper(String payload) {
-    this(new JSONObject(payload));
+  public WebhookMapper() {
   }
 
-  public WebhookMapper(JSONObject json) {
-    this.json = json;
+  public WebhookInfo map(String payload) {
+    JSONObject jsonObject = new JSONObject(payload);
+    return map(jsonObject);
   }
 
-  public WebhookInfo map() {
+  public WebhookInfo map(JSONObject json) {
 
     WebhookInfo info = new WebhookInfo();
 
-    info.setCredential(parseCommitterEmail());
-    info.setLocalRepositoryPath(createLocalRepositoryPath());
-    info.setModifiedFiles(parseModifiedFiles());
+    info.setCredential(parseCommitterEmail(json));
+    info.setLocalRepositoryPath(createLocalRepositoryPath(json));
+    info.setModifiedFiles(parseModifiedFiles(json));
     info.setMovedFiles(new ArrayList<String>());
-    info.setReference(parseReference());
-    info.setRemovedFiles(parseRemovedFiles());
-    info.setRepositoryName(parseRepositoryName());
-    info.setRepositoryUrl(parseRepositoryUrl());
-    info.setUntrackedFiles(parseAddedFiles());
+    info.setReference(parseReference(json));
+    info.setRemovedFiles(parseRemovedFiles(json));
+    info.setRepositoryName(parseRepositoryName(json));
+    info.setRepositoryUrl(parseRepositoryUrl(json));
+    info.setUntrackedFiles(parseAddedFiles(json));
 
     return info;
 
   }
 
-  protected String createLocalRepositoryPath() {
+  protected String createLocalRepositoryPath(JSONObject json) {
     String home = System.getProperty("user.home");
-    String name = parseRepositoryName();
+    String name = parseRepositoryName(json);
     File path = new File(home + System.getProperty("file.separator") + name);
     return path.getAbsolutePath();
   }
 
-  private String parseRepositoryName() {
+  private String parseRepositoryName(JSONObject json) {
     JSONObject repository = json.getJSONObject("repository");
     return repository.get("name").toString();
   }
 
-  private String parseRepositoryUrl() {
+  private String parseRepositoryUrl(JSONObject json) {
     JSONObject repository = json.getJSONObject("repository");
     return repository.get("url").toString();
   }
 
-  private String parseReference() {
+  private String parseReference(JSONObject json) {
     return json.get("ref").toString();
   }
 
-  private String parseCommitterEmail() {
+  private String parseCommitterEmail(JSONObject json) {
     JSONArray commits = json.getJSONArray("commits");
     JSONObject commitInfo = commits.getJSONObject(0);
     JSONObject committer = commitInfo.getJSONObject("author");
@@ -66,19 +64,19 @@ public class WebhookMapper {
     return email.toString();
   }
 
-  private List<String> parseModifiedFiles() {
-    return parseFiles("modified");
+  private List<String> parseModifiedFiles(JSONObject json) {
+    return parseFiles(json, "modified");
   }
 
-  private List<String> parseAddedFiles() {
-    return parseFiles("added");
+  private List<String> parseAddedFiles(JSONObject json) {
+    return parseFiles(json, "added");
   }
 
-  private List<String> parseRemovedFiles() {
-    return parseFiles("removed");
+  private List<String> parseRemovedFiles(JSONObject json) {
+    return parseFiles(json, "removed");
   }
 
-  private List<String> parseFiles(String attribute) {
+  private List<String> parseFiles(JSONObject json, String attribute) {
     JSONArray commits = json.getJSONArray("commits");
     JSONObject commitInfo = commits.getJSONObject(0);
     JSONArray modified = commitInfo.getJSONArray(attribute);

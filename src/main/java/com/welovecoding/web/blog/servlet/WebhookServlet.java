@@ -24,6 +24,7 @@ import javax.servlet.http.HttpServletResponse;
 public class WebhookServlet extends HttpServlet {
 
   private static final Logger LOG = Logger.getLogger(WebhookServlet.class.getName());
+  private final WebhookMapper mapper = new WebhookMapper();
   private String payload;
 
   protected void processRequest(HttpServletRequest request, HttpServletResponse response)
@@ -94,8 +95,7 @@ public class WebhookServlet extends HttpServlet {
       System.out.println("Output: " + payload);
 
       // Process Payload
-      WebhookMapper mapper = new WebhookMapper(payload);
-      WebhookInfo info = mapper.map();
+      WebhookInfo info = mapper.map(payload);
 
       // Pull files in Git
       GitHubController ghc = new GitHubController(info);
