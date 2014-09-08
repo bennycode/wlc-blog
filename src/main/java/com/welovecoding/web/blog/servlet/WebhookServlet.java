@@ -113,8 +113,12 @@ public class WebhookServlet extends HttpServlet {
         for (String filePath : info.getModifiedFiles()) {
           String absoluteFilePath = FileUtility.joinDirectoryAndFilePath(repositoryPath, filePath);
           Article article = articleMapper.mapArticleFromMarkdownFile(absoluteFilePath);
-          article.setId(filePath);
-          articleService.save(article);
+
+          if (article != null) {
+            article.setId(filePath);
+            articleService.save(article);
+          }
+
         }
       }
 
