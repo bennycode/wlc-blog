@@ -7,6 +7,6 @@
 # Title #
 ## A great Tale ##
 
-# test!
+# test
 
 This is **bold** text.

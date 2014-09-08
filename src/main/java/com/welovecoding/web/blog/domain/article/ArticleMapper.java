@@ -26,11 +26,17 @@ public class ArticleMapper {
 
     if (absolutePath.endsWith(".md")) {
       File markdownFile = new File(absolutePath);
-      parseMarkdownFile(markdownFile);
+      Article article = parseMarkdownFile(markdownFile);
+      // Demo
+      if (article != null) {
+        System.out.println(article.toString());
+      }
     }
   }
 
-  private void parseMarkdownFile(File markdownFile) {
+  private Article parseMarkdownFile(File markdownFile) {
+    Article article = null;
+
     BufferedMarkdownMetaParser metaParser = new BufferedMarkdownMetaParser();
     boolean readMetaData = false;
 
@@ -61,7 +67,7 @@ public class ArticleMapper {
       }
 
       // Assign data
-      Article article = new Article();
+      article = new Article();
       Map<String, MarkdownMetaData> metaData = metaParser.getData();
 
       MarkdownMetaData title = metaData.get("title");
@@ -81,15 +87,13 @@ public class ArticleMapper {
 
       article.setHtml(content.toString());
 
-      // Demo
-      System.out.println(article.toString());
-
     } catch (FileNotFoundException | UnsupportedEncodingException ex) {
       LOG.log(Level.SEVERE, "Error while opening the file: {0}", ex.getMessage());
     } catch (IOException ex) {
       LOG.log(Level.SEVERE, "Error while reading the file: {0}", ex.getMessage());
     }
 
+    return article;
   }
 
 }
