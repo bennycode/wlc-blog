@@ -59,7 +59,7 @@ public class WebhookServlet extends HttpServlet {
   protected void doPost(HttpServletRequest request, HttpServletResponse response)
           throws ServletException, IOException {
     String debugString = RequestPrinter.debugString(request);
-    System.out.println("Headers:");
+    System.out.println("Headers: ");
     System.out.println(debugString);
 
     boolean isPushCommit = checkForPushCommit(request);
