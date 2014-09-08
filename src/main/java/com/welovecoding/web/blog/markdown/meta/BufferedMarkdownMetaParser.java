@@ -44,6 +44,7 @@ public class BufferedMarkdownMetaParser {
     }
 
     if (isArray(value)) {
+      System.out.println("IS ARRAY");
       String[] values = convertValueArray(value);
       data.put(key, new MarkdownMetaData(key, values));
     } else {
@@ -60,6 +61,7 @@ public class BufferedMarkdownMetaParser {
     String values = valueArray.substring(1, valueArray.length() - 1);
     String[] splitted = values.split(",");
     String[] results = new String[splitted.length];
+    System.out.println(splitted.length);
 
     for (int i = 0; i < results.length; i++) {
       results[i] = splitted[i].replace("\"", "").trim();
@@ -69,9 +71,10 @@ public class BufferedMarkdownMetaParser {
   }
 
   public void print() {
+    System.out.println("Items: " + data.size());
+
     for (String key : data.keySet()) {
       MarkdownMetaData keyValuePair = data.get(key);
-      System.out.println("Items: " + data.size());
       System.out.println("Key: " + keyValuePair.getKey());
       System.out.println("Value(s):");
       for (String value : keyValuePair.getValues()) {
