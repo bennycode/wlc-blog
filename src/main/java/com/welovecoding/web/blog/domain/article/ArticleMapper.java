@@ -2,6 +2,8 @@ package com.welovecoding.web.blog.domain.article;
 
 import com.welovecoding.web.blog.markdown.meta.BufferedMarkdownMetaParser;
 import com.welovecoding.web.blog.markdown.meta.MarkdownMetaData;
+import static com.welovecoding.web.blog.markdown.meta.MarkdownMetaParser.META_END;
+import static com.welovecoding.web.blog.markdown.meta.MarkdownMetaParser.META_START;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
@@ -30,6 +32,7 @@ public class ArticleMapper {
   private void parseMarkdownFile(File markdownFile) {
     BufferedMarkdownMetaParser metaParser = new BufferedMarkdownMetaParser();
     Map<String, MarkdownMetaData> metaData;
+    boolean readMetaData = false;
 
     StringBuilder content = new StringBuilder();
     String line;
@@ -41,12 +44,21 @@ public class ArticleMapper {
       BufferedReader reader = new BufferedReader(isr);
 
       while ((line = reader.readLine()) != null) {
-        // Mata snippet
-        metaParser.parse(line);
+        switch (line) {
+          case META_START:
+            readMetaData = true;
+            break;
+          case META_END:
+            readMetaData = false;
+            break;
+        }
 
-        // Content snippet
-        String markDownLine = markdown4jProcessor.process(line);
-        content.append(markDownLine);
+        if (readMetaData) {
+          metaParser.parse(line);
+        } else {
+          String markDownLine = markdown4jProcessor.process(line);
+          content.append(markDownLine);
+        }
       }
 
       // Meta assignment
