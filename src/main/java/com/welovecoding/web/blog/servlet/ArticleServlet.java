@@ -55,7 +55,7 @@ public class ArticleServlet extends HttpServlet {
       out.println("<head>");
       out.println("</head>");
       out.println("<body>");
-      out.println(resourcePath);
+      out.println(code);
       out.println("</body>");
       out.println("</html>");
     } catch (IOException ex) {

@@ -117,6 +117,7 @@ public class WebhookServlet extends HttpServlet {
           if (article != null) {
             article.setId(filePath);
             articleService.save(article);
+            LOG.log(Level.INFO, "Saved article to database: {0}", article.getId());
           }
 
         }
