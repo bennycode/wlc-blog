@@ -99,11 +99,11 @@ public class WebhookServlet extends HttpServlet {
       WebhookInfo info = mapper.map(payload);
 
       // Pull files in Git
-      boolean isProcessed = gitHubController.process(info);
+      boolean isPulled = gitHubController.pullFiles(info);
+
+      System.out.println("Pull success: " + isPulled);
 
       // Parse files in Git
-      
-      
       // Write information to database
     } else {
       LOG.log(Level.WARNING, "Invalid GitHub Webhook Payload.");

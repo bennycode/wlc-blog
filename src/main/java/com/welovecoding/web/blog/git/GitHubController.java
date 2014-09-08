@@ -13,11 +13,13 @@ public class GitHubController {
   public GitHubController() {
   }
 
-  public boolean process(WebhookInfo webhook) {
+  public boolean pullFiles(WebhookInfo webhook) {
     String remotePath = webhook.getRepositoryUrl();
     String localPath = webhook.getLocalRepositoryPath();
 
-    return updateRepository(remotePath, localPath);
+    boolean isPulled = updateRepository(remotePath, localPath);
+    
+    return isPulled;
   }
 
   private boolean updateRepository(String repositoryUrl, String localRepositoryPath) {
