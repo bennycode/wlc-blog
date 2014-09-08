@@ -18,7 +18,7 @@ public class GitHubController {
     String localPath = webhook.getLocalRepositoryPath();
 
     boolean isPulled = updateRepository(remotePath, localPath);
-    
+
     return isPulled;
   }
 
@@ -29,7 +29,7 @@ public class GitHubController {
     try {
       gh.init(repositoryUrl, localRepositoryPath);
       if (gh.pull()) {
-        LOG.log(Level.INFO, "Successfully updated Git repository.");
+        LOG.log(Level.INFO, "{0}: Successfully updated Git repository.", this.getClass().getSimpleName());
         wasSuccessful = true;
       }
     } catch (GitInitializationException | GitPullException ex) {
