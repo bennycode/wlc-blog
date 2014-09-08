@@ -1,7 +1,10 @@
 package com.welovecoding.web.blog.domain.article;
 
 import java.io.Serializable;
+import java.text.MessageFormat;
+import java.util.Arrays;
 import java.util.Calendar;
+import java.util.List;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -23,6 +26,18 @@ public class Article implements Serializable {
   private String title;
   private String description;
   private String html;
+  private List<String> tags;
+
+  public Article() {
+  }
+
+  public List<String> getTags() {
+    return tags;
+  }
+
+  public void setTags(List<String> tags) {
+    this.tags = tags;
+  }
 
   public Calendar getPublished() {
     return published;
@@ -55,7 +70,7 @@ public class Article implements Serializable {
   public void setHtml(String html) {
     this.html = html;
   }
-  
+
   public String getId() {
     return id;
   }
@@ -86,7 +101,27 @@ public class Article implements Serializable {
 
   @Override
   public String toString() {
-    return "com.welovecoding.web.blog.entity.Article[ id=" + id + " ]";
+    String lb = System.getProperty("line.separator", "\r\n");
+
+    String template = "Entity: {0}"
+            + lb
+            + "Title: {1}"
+            + lb
+            + "Description: {2}"
+            + lb
+            + "Tags: {3}"
+            + lb
+            + "HTML: {4}";
+
+    Object[] values = new Object[]{
+      this.getClass().getName() + "[ id=" + id + " ]",
+      this.title,
+      this.description,
+      Arrays.toString(this.tags.toArray()),
+      this.html
+    };
+
+    return MessageFormat.format(template, values);
   }
 
 }
