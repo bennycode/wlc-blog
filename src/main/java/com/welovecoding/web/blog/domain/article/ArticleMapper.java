@@ -44,13 +44,8 @@ public class ArticleMapper {
       BufferedReader reader = new BufferedReader(isr);
 
       while ((line = reader.readLine()) != null) {
-        switch (line) {
-          case META_START:
-            readMetaData = true;
-            break;
-          case META_END:
-            readMetaData = false;
-            break;
+        if (line.equals(META_START)) {
+          readMetaData = true;
         }
 
         if (readMetaData) {
@@ -58,6 +53,10 @@ public class ArticleMapper {
         } else {
           String markDownLine = markdown4jProcessor.process(line);
           content.append(markDownLine);
+        }
+
+        if (line.equals(META_END)) {
+          readMetaData = false;
         }
       }
 
