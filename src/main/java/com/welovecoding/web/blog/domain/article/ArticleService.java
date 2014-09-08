@@ -16,4 +16,7 @@ public class ArticleService {
     repository.save(entity);
   }
 
+  public Article findById(String id) {
+    return repository.findById(id);
+  }
 }

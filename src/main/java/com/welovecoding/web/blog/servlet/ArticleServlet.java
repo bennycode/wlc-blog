@@ -1,5 +1,7 @@
 package com.welovecoding.web.blog.servlet;
 
+import com.welovecoding.web.blog.domain.article.Article;
+import com.welovecoding.web.blog.domain.article.ArticleService;
 import com.welovecoding.web.blog.markdown.meta.MarkdownMetaData;
 import com.welovecoding.web.blog.markdown.meta.MarkdownMetaParser;
 import java.io.IOException;
@@ -8,6 +10,7 @@ import java.io.PrintWriter;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.ejb.EJB;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -23,25 +26,40 @@ public class ArticleServlet extends HttpServlet {
   private static String title = "";
   private static String description = "";
   private static String content = "";
+  @EJB
+  private ArticleService articleService;
 
   protected void processRequest(HttpServletRequest request, HttpServletResponse response)
           throws ServletException, IOException {
-    response.setContentType("text/html;charset=UTF-8");
-
+    // Key in DB: src/main/resources/articles/test.md
+    // Resource Path Example: /articles/test.md
     String resourcePath = buildResourcePath(request);
-    InputStream is = getClass().getClassLoader().getResourceAsStream(resourcePath);
+    String primaryKey = "src/main/resources" + resourcePath;
 
-    if (is != null) {
-      processResource(is);
-
-      try (PrintWriter out = response.getWriter()) {
-        printResponse(out);
-      } catch (Exception ex) {
-        LOG.log(Level.WARNING, ex.getMessage());
-      }
-
+    Article article = articleService.findById(primaryKey);
+    if (article != null) {
+      renderHtml(request, response, article.getHtml());
     } else {
-      response.sendRedirect(request.getContextPath());
+      renderHtml(request, response, "404");
+    }
+
+  }
+
+  private static void renderHtml(HttpServletRequest request, HttpServletResponse response, String code) {
+    response.setContentType("text/html;charset=UTF-8");
+    String resourcePath = buildResourcePath(request);
+
+    try (PrintWriter out = response.getWriter()) {
+      out.println("<!DOCTYPE html>");
+      out.println("<html>");
+      out.println("<head>");
+      out.println("</head>");
+      out.println("<body>");
+      out.println(resourcePath);
+      out.println("</body>");
+      out.println("</html>");
+    } catch (IOException ex) {
+      LOG.log(Level.WARNING, ex.getMessage());
     }
   }
 
