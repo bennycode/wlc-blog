@@ -1,5 +1,6 @@
 package com.welovecoding.web.blog.domain.article;
 
+import com.welovecoding.web.blog.markdown.meta.BufferedMarkdownMetaParser;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
@@ -9,12 +10,15 @@ import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import org.markdown4j.Markdown4jProcessor;
 
 public class ArticleMapper {
 
   private static final Logger LOG = Logger.getLogger(ArticleMapper.class.getName());
+  private Markdown4jProcessor markdown4jProcessor = new Markdown4jProcessor();
 
   public void mapArticleFromMarkdownFile(String absolutePath) {
+
     if (absolutePath.endsWith(".md")) {
       File markdownFile = new File(absolutePath);
       parseMarkdownFile(markdownFile);
@@ -22,16 +26,23 @@ public class ArticleMapper {
   }
 
   private void parseMarkdownFile(File markdownFile) {
+    BufferedMarkdownMetaParser metaParser = new BufferedMarkdownMetaParser();
     StringBuilder sb = new StringBuilder();
     String line;
 
     try (
             FileInputStream fis = new FileInputStream(markdownFile);
             InputStreamReader isr = new InputStreamReader(fis, "UTF-8");) {
+
       BufferedReader reader = new BufferedReader(isr);
+
       while ((line = reader.readLine()) != null) {
-        System.out.println("JA: " + line);
+        // markdown4jProcessor.process(line);
+        metaParser.parse(line);
       }
+
+      System.out.println("PROCESSED!");
+
     } catch (FileNotFoundException | UnsupportedEncodingException ex) {
       LOG.log(Level.SEVERE, "Error while opening the file: {0}", ex.getMessage());
     } catch (IOException ex) {

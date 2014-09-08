@@ -21,7 +21,7 @@ public class MarkdownMetaParser {
   public static final String META_START = "<!--*";
   public static final String META_END = "*-->";
   private static final String META_SEPARATOR = ";";
-  private static final String KEY_VALUE_SEPARATOR = ":";
+  public static final String KEY_VALUE_SEPARATOR = ":";
 
   public Map<String, MarkdownMetaData> parseStream(InputStream stream) {
     String metaDataString = readFileContent(stream);
