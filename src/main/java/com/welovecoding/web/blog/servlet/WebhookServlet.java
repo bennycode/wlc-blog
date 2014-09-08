@@ -1,6 +1,8 @@
 package com.welovecoding.web.blog.servlet;
 
+import com.welovecoding.web.blog.domain.article.Article;
 import com.welovecoding.web.blog.domain.article.ArticleMapper;
+import com.welovecoding.web.blog.domain.article.ArticleService;
 import com.welovecoding.web.blog.git.GitHubController;
 import com.welovecoding.web.blog.github.WebhookInfo;
 import com.welovecoding.web.blog.github.WebhookMapper;
@@ -15,6 +17,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.ejb.EJB;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -29,6 +32,8 @@ public class WebhookServlet extends HttpServlet {
   private final ArticleMapper articleMapper = new ArticleMapper();
   private final WebhookMapper mapper = new WebhookMapper();
   private String payload;
+  @EJB
+  private ArticleService articleService;
 
   protected void processRequest(HttpServletRequest request, HttpServletResponse response)
           throws ServletException, IOException {
@@ -107,8 +112,9 @@ public class WebhookServlet extends HttpServlet {
         String repositoryPath = info.getLocalRepositoryPath();
         for (String filePath : info.getModifiedFiles()) {
           String absoluteFilePath = FileUtility.joinDirectoryAndFilePath(repositoryPath, filePath);
-          articleMapper.mapArticleFromMarkdownFile(absoluteFilePath);
-
+          Article article = articleMapper.mapArticleFromMarkdownFile(absoluteFilePath);
+          article.setId(filePath);
+          articleService.save(article);
         }
       }
 

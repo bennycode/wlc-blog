@@ -20,18 +20,17 @@ import org.markdown4j.Markdown4jProcessor;
 public class ArticleMapper {
 
   private static final Logger LOG = Logger.getLogger(ArticleMapper.class.getName());
-  private Markdown4jProcessor markdown4jProcessor = new Markdown4jProcessor();
+  private final Markdown4jProcessor markdown4jProcessor = new Markdown4jProcessor();
 
-  public void mapArticleFromMarkdownFile(String absolutePath) {
+  public Article mapArticleFromMarkdownFile(String absolutePath) {
+    Article article = null;
 
     if (absolutePath.endsWith(".md")) {
       File markdownFile = new File(absolutePath);
-      Article article = parseMarkdownFile(markdownFile);
-      // Demo
-      if (article != null) {
-        System.out.println(article.toString());
-      }
+      article = parseMarkdownFile(markdownFile);
     }
+
+    return article;
   }
 
   private Article parseMarkdownFile(File markdownFile) {
