@@ -41,12 +41,21 @@ public class ArticleMapper {
       BufferedReader reader = new BufferedReader(isr);
 
       while ((line = reader.readLine()) != null) {
-        // markdown4jProcessor.process(line);
+        // Mata snippet
         metaParser.parse(line);
+
+        // Content snippet
+        String markDownLine = markdown4jProcessor.process(line);
+        content.append(markDownLine);
       }
 
+      // Meta assignment
       metaData = metaParser.getData();
       metaParser.print();
+
+      // Content assignment
+      System.out.println("Content");
+      System.out.println(content.toString());
 
     } catch (FileNotFoundException | UnsupportedEncodingException ex) {
       LOG.log(Level.SEVERE, "Error while opening the file: {0}", ex.getMessage());

@@ -3,7 +3,6 @@ package com.welovecoding.web.blog.markdown.meta;
 import static com.welovecoding.web.blog.markdown.meta.MarkdownMetaParser.META_END;
 import static com.welovecoding.web.blog.markdown.meta.MarkdownMetaParser.META_START;
 import static com.welovecoding.web.blog.markdown.meta.MarkdownMetaParser.KEY_VALUE_SEPARATOR;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -34,9 +33,9 @@ public class BufferedMarkdownMetaParser {
   }
 
   private void parseData(String meta) {
+    String key;
+    String value;
     String[] keyValuePair = meta.trim().split(KEY_VALUE_SEPARATOR);
-    String key = null;
-    String value = "";
 
     if (keyValuePair.length > 1) {
       key = keyValuePair[0].trim();
