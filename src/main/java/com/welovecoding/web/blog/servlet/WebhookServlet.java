@@ -25,6 +25,7 @@ public class WebhookServlet extends HttpServlet {
 
   private static final Logger LOG = Logger.getLogger(WebhookServlet.class.getName());
   private final GitHubController gitHubController = new GitHubController();
+  private final ArticleMapper articleMapper = new ArticleMapper();
   private final WebhookMapper mapper = new WebhookMapper();
   private String payload;
 
@@ -101,7 +102,14 @@ public class WebhookServlet extends HttpServlet {
       // Pull files in Git
       boolean isPulled = gitHubController.pullFiles(info);
 
-      System.out.println("Pull success: " + isPulled);
+      if (isPulled) {
+        String repositoryPath = info.getLocalRepositoryPath();
+        for (String filePath : info.getModifiedFiles()) {
+          // TODO: Parse file to Article Entity
+          articleMapper.mapArticle(repositoryPath, filePath);
+
+        }
+      }
 
       // Parse files in Git
       // Write information to database
