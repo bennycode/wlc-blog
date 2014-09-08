@@ -29,7 +29,7 @@ public class GitHubController {
     try {
       gh.init(repositoryUrl, localRepositoryPath);
       if (gh.pull()) {
-        LOG.log(Level.INFO, "{0}: Successfully updated Git repository.", this.getClass().getSimpleName());
+        LOG.log(Level.INFO, "{0}: Successfully pulled Git repository.", this.getClass().getSimpleName());
         wasSuccessful = true;
       }
     } catch (GitInitializationException | GitPullException ex) {
