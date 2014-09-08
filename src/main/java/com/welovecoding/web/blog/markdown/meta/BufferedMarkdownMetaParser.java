@@ -71,8 +71,12 @@ public class BufferedMarkdownMetaParser {
   public void print() {
     for (String key : data.keySet()) {
       MarkdownMetaData keyValuePair = data.get(key);
-      System.out.println(keyValuePair.getKey());
-      System.out.println(Arrays.toString(keyValuePair.getValues()));
+      System.out.println("Items: " + data.size());
+      System.out.println("Key: " + keyValuePair.getKey());
+      System.out.println("Value(s):");
+      for (String value : keyValuePair.getValues()) {
+        System.out.println(value);
+      }
     }
   }
 
