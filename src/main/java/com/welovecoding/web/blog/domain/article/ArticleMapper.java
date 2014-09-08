@@ -1,6 +1,7 @@
 package com.welovecoding.web.blog.domain.article;
 
 import com.welovecoding.web.blog.markdown.meta.BufferedMarkdownMetaParser;
+import com.welovecoding.web.blog.markdown.meta.MarkdownMetaData;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
@@ -8,6 +9,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
+import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.markdown4j.Markdown4jProcessor;
@@ -27,7 +29,9 @@ public class ArticleMapper {
 
   private void parseMarkdownFile(File markdownFile) {
     BufferedMarkdownMetaParser metaParser = new BufferedMarkdownMetaParser();
-    StringBuilder sb = new StringBuilder();
+    Map<String, MarkdownMetaData> metaData;
+
+    StringBuilder content = new StringBuilder();
     String line;
 
     try (
@@ -41,7 +45,8 @@ public class ArticleMapper {
         metaParser.parse(line);
       }
 
-      System.out.println("PROCESSED!");
+      metaData = metaParser.getData();
+      metaParser.print();
 
     } catch (FileNotFoundException | UnsupportedEncodingException ex) {
       LOG.log(Level.SEVERE, "Error while opening the file: {0}", ex.getMessage());

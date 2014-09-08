@@ -3,6 +3,7 @@ package com.welovecoding.web.blog.markdown.meta;
 import static com.welovecoding.web.blog.markdown.meta.MarkdownMetaParser.META_END;
 import static com.welovecoding.web.blog.markdown.meta.MarkdownMetaParser.META_START;
 import static com.welovecoding.web.blog.markdown.meta.MarkdownMetaParser.KEY_VALUE_SEPARATOR;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -65,6 +66,14 @@ public class BufferedMarkdownMetaParser {
     }
 
     return results;
+  }
+
+  public void print() {
+    for (String key : data.keySet()) {
+      MarkdownMetaData keyValuePair = data.get(key);
+      System.out.println(keyValuePair.getKey());
+      System.out.println(Arrays.toString(keyValuePair.getValues()));
+    }
   }
 
   public Map<String, MarkdownMetaData> getData() {
