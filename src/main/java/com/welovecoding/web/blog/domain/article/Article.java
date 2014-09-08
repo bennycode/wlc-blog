@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.text.MessageFormat;
 import java.util.Arrays;
 import java.util.Calendar;
+import java.util.GregorianCalendar;
 import java.util.List;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -29,6 +30,7 @@ public class Article implements Serializable {
   private List<String> tags;
 
   public Article() {
+    this.published = new GregorianCalendar();
   }
 
   public List<String> getTags() {
