@@ -6,6 +6,7 @@ import com.welovecoding.web.blog.github.WebhookInfo;
 import com.welovecoding.web.blog.github.WebhookMapper;
 import com.welovecoding.web.blog.settings.Settings;
 import com.welovecoding.web.blog.util.CryptographyUtility;
+import com.welovecoding.web.blog.util.FileUtility;
 import com.welovecoding.web.blog.util.RequestPrinter;
 import java.io.BufferedReader;
 import java.io.File;
@@ -105,8 +106,8 @@ public class WebhookServlet extends HttpServlet {
       if (isPulled) {
         String repositoryPath = info.getLocalRepositoryPath();
         for (String filePath : info.getModifiedFiles()) {
-          // TODO: Parse file to Article Entity
-          articleMapper.mapArticle(repositoryPath, filePath);
+          String absoluteFilePath = FileUtility.joinDirectoryAndFilePath(repositoryPath, filePath);
+          articleMapper.mapArticleFromMarkdownFile(absoluteFilePath);
 
         }
       }
