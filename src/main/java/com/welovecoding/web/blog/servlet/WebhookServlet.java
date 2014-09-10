@@ -117,8 +117,14 @@ public class WebhookServlet extends HttpServlet {
 
           // TODO: Get Article from database first, then merge
           // Avoids: Duplicate entry 
+          LOG.log(Level.OFF, payload);
+          LOG.log(Level.INFO, "{0}: Searching for Article ID: '{1}'", new Object[]{
+            this.getClass().getSimpleName(),
+            filePath
+          });
           Article article;
-          articleService.findById(payload);
+          Article findById = articleService.findById(filePath);
+
           article = articleMapper.mapArticleFromMarkdownFile(absoluteFilePath);
 
           if (article != null) {
