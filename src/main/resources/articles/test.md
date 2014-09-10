@@ -7,4 +7,4 @@
 # Nice #
 ## We can override articles! ##
 
-Wuhu! :-)
+Wuhu! :-))
