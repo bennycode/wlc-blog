@@ -116,23 +116,24 @@ public class WebhookServlet extends HttpServlet {
           String absoluteFilePath = FileUtility.joinDirectoryAndFilePath(repositoryPath, filePath);
 
           // TODO: Get Article from database first, then merge
-          // Avoids: Duplicate entry 
-          LOG.log(Level.OFF, payload);
+          logInfo(String.format("Searching for article ID: %s", filePath));
 
-          Article article;
-          Article findById = articleService.findById(filePath);
+          Article existingArticle = articleService.findById(filePath);
+          Article mappedArticle = articleMapper.mapArticleFromMarkdownFile(absoluteFilePath);
 
-          article = articleMapper.mapArticleFromMarkdownFile(absoluteFilePath);
+          if (existingArticle == null) {
+            mappedArticle.setId(filePath);
+            
+            articleService.save(mappedArticle);
+            logInfo(String.format("Saved article ID: %s", filePath));
+          } else {
+            existingArticle.setTitle(mappedArticle.getTitle());
+            existingArticle.setDescription(mappedArticle.getDescription());
+            existingArticle.setTags(existingArticle.getTags());
+            existingArticle.setHtml(mappedArticle.getHtml());
 
-          LOG.log(Level.INFO, "{0}: Searching for Article ID: {1}", new Object[]{
-            this.getClass().getSimpleName(),
-            filePath
-          });
-
-          if (article != null) {
-            article.setId(filePath);
-            // articleService.save(article);
-            LOG.log(Level.INFO, "Saved article to database: {0}", article.getId());
+            articleService.edit(existingArticle);
+            logInfo(String.format("Edited article ID: %s", filePath));
           }
 
         }
@@ -194,6 +195,13 @@ public class WebhookServlet extends HttpServlet {
 
   private void logError(Exception ex) {
     LOG.log(Level.WARNING, ex.getLocalizedMessage());
+  }
+
+  private void logInfo(String message) {
+    LOG.log(Level.INFO, "{0}: {1}", new Object[]{
+      this.getClass().getSimpleName(),
+      message
+    });
   }
 
 }

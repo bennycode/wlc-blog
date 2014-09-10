@@ -1,7 +1,6 @@
 package com.welovecoding.web.blog.domain.article;
 
 import static com.welovecoding.web.blog.settings.Settings.PERSISTENCE_UNIT_NAME;
-import java.util.logging.Level;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
@@ -30,5 +29,9 @@ public class ArticleRepository {
 
   public void save(Article entity) {
     em.persist(entity);
+  }
+
+  public void edit(Article entity) {
+    em.merge(entity);
   }
 }

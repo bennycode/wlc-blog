@@ -16,6 +16,10 @@ public class ArticleService {
     repository.save(entity);
   }
 
+  public void edit(Article entity) {
+    repository.edit(entity);
+  }
+
   public Article findById(String id) {
     return repository.findById(id);
   }
