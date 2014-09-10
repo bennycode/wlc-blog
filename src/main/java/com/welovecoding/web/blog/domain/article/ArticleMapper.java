@@ -26,6 +26,10 @@ public class ArticleMapper {
     Article article = null;
 
     if (absolutePath.endsWith(".md")) {
+      LOG.log(Level.INFO, "{0}: We will parse: {1}", new Object[]{
+        this.getClass().getSimpleName(),
+        absolutePath
+      });
       File markdownFile = new File(absolutePath);
       article = parseMarkdownFile(markdownFile);
     }

@@ -111,10 +111,15 @@ public class WebhookServlet extends HttpServlet {
       if (isPulled) {
         String repositoryPath = info.getLocalRepositoryPath();
         for (String filePath : info.getModifiedFiles()) {
+          //
+
           String absoluteFilePath = FileUtility.joinDirectoryAndFilePath(repositoryPath, filePath);
+
           // TODO: Get Article from database first, then merge
           // Avoids: Duplicate entry 
-          Article article = articleMapper.mapArticleFromMarkdownFile(absoluteFilePath);
+          Article article;
+          articleService.findById(payload);
+          article = articleMapper.mapArticleFromMarkdownFile(absoluteFilePath);
 
           if (article != null) {
             article.setId(filePath);
