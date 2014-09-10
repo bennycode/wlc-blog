@@ -126,7 +126,7 @@ public class WebhookServlet extends HttpServlet {
 
           LOG.log(Level.INFO, "{0}: Searching for Article ID: {1}", new Object[]{
             this.getClass().getSimpleName(),
-            article.getId()
+            filePath
           });
 
           if (article != null) {
