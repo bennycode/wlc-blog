@@ -23,16 +23,13 @@ public class ArticleMapper {
   private final Markdown4jProcessor markdown4jProcessor = new Markdown4jProcessor();
 
   public Article mapArticleFromMarkdownFile(String absolutePath) {
-    Article article = null;
+    LOG.log(Level.INFO, "{0}: Parsing file: {1}", new Object[]{
+      this.getClass().getSimpleName(),
+      absolutePath
+    });
 
-    if (absolutePath.endsWith(".md")) {
-      LOG.log(Level.INFO, "{0}: We will parse: {1}", new Object[]{
-        this.getClass().getSimpleName(),
-        absolutePath
-      });
-      File markdownFile = new File(absolutePath);
-      article = parseMarkdownFile(markdownFile);
-    }
+    File markdownFile = new File(absolutePath);
+    Article article = parseMarkdownFile(markdownFile);
 
     return article;
   }

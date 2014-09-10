@@ -115,13 +115,12 @@ public class WebhookServlet extends HttpServlet {
 
           String absoluteFilePath = FileUtility.joinDirectoryAndFilePath(repositoryPath, filePath);
 
-          // TODO: Get Article from database first, then merge
-          logInfo(String.format("Searching for article ID: %s", filePath));
+          if (absoluteFilePath.endsWith(".md")) {
+            // TODO: Get Article from database first, then merge
+            logInfo(String.format("Searching for article ID: %s", filePath));
 
-          Article existingArticle = articleService.findById(filePath);
-          Article mappedArticle = articleMapper.mapArticleFromMarkdownFile(absoluteFilePath);
-
-          if (mappedArticle != null) {
+            Article existingArticle = articleService.findById(filePath);
+            Article mappedArticle = articleMapper.mapArticleFromMarkdownFile(absoluteFilePath);
 
             if (existingArticle == null) {
               mappedArticle.setId(filePath);
@@ -137,8 +136,8 @@ public class WebhookServlet extends HttpServlet {
               articleService.edit(existingArticle);
               logInfo(String.format("Edited article ID: %s", filePath));
             }
-
           }
+
         }
       }
 
