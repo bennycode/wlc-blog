@@ -121,21 +121,24 @@ public class WebhookServlet extends HttpServlet {
           Article existingArticle = articleService.findById(filePath);
           Article mappedArticle = articleMapper.mapArticleFromMarkdownFile(absoluteFilePath);
 
-          if (existingArticle == null) {
-            mappedArticle.setId(filePath);
-            
-            articleService.save(mappedArticle);
-            logInfo(String.format("Saved article ID: %s", filePath));
-          } else {
-            existingArticle.setTitle(mappedArticle.getTitle());
-            existingArticle.setDescription(mappedArticle.getDescription());
-            existingArticle.setTags(existingArticle.getTags());
-            existingArticle.setHtml(mappedArticle.getHtml());
+          if (mappedArticle != null) {
 
-            articleService.edit(existingArticle);
-            logInfo(String.format("Edited article ID: %s", filePath));
+            if (existingArticle == null) {
+              mappedArticle.setId(filePath);
+
+              articleService.save(mappedArticle);
+              logInfo(String.format("Saved article ID: %s", filePath));
+            } else {
+              existingArticle.setTitle(mappedArticle.getTitle());
+              existingArticle.setDescription(mappedArticle.getDescription());
+              existingArticle.setTags(existingArticle.getTags());
+              existingArticle.setHtml(mappedArticle.getHtml());
+
+              articleService.edit(existingArticle);
+              logInfo(String.format("Edited article ID: %s", filePath));
+            }
+
           }
-
         }
       }
 
