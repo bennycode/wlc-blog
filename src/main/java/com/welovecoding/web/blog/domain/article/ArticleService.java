@@ -1,7 +1,9 @@
 package com.welovecoding.web.blog.domain.article;
 
+import java.util.List;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
+import javax.persistence.criteria.CriteriaQuery;
 
 @Stateless
 public class ArticleService {
@@ -20,7 +22,11 @@ public class ArticleService {
     repository.edit(entity);
   }
 
-  public Article findById(String id) {
-    return repository.findById(id);
+  public Article getById(String id) {
+    return repository.getById(id);
+  }
+
+  public List<Article> getAll() {
+    return repository.getAll();
   }
 }

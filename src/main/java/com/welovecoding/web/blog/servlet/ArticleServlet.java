@@ -36,7 +36,7 @@ public class ArticleServlet extends HttpServlet {
     String resourcePath = buildResourcePath(request);
     String primaryKey = "src/main/resources" + resourcePath;
 
-    Article article = articleService.findById(primaryKey);
+    Article article = articleService.getById(primaryKey);
     if (article != null) {
       renderHtml(request, response, article.getHtml());
     } else {

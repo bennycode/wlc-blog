@@ -119,7 +119,7 @@ public class WebhookServlet extends HttpServlet {
             // TODO: Get Article from database first, then merge
             logInfo(String.format("Searching for article ID: %s", filePath));
 
-            Article existingArticle = articleService.findById(filePath);
+            Article existingArticle = articleService.getById(filePath);
             Article mappedArticle = articleMapper.mapArticleFromMarkdownFile(absoluteFilePath);
 
             if (existingArticle == null) {

@@ -10,7 +10,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
- * Inspired by https://github.com/lichunr/markdown-meta.
+ * Inspired by https://github.com/lichunr/markdown-meta
  *
  * @author Benny
  */
