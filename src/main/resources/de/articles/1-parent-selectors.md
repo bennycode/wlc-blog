@@ -10,7 +10,7 @@ Hallo Welt!!
 
 Benny tets Code-Rendering:
 
-```java
+```
 String webappDirLocation = "src/main/webapp/";
 Tomcat tomcat = new Tomcat();
 
