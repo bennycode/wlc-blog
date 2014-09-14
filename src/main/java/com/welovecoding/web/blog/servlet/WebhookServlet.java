@@ -114,6 +114,7 @@ public class WebhookServlet extends HttpServlet {
           //
 
           String absoluteFilePath = FileUtility.joinDirectoryAndFilePath(repositoryPath, filePath);
+          logInfo(String.format("Checking file: %s", absoluteFilePath));
 
           if (absoluteFilePath.endsWith(".md")) {
             // TODO: Get Article from database first, then merge
