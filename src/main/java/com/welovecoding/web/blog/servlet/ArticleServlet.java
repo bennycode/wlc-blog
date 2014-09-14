@@ -33,7 +33,7 @@ public class ArticleServlet extends HttpServlet {
           throws ServletException, IOException {
     // Key in DB: src/main/resources/articles/test.md
     // Resource Path Example: /articles/test.md
-    String resourcePath = buildResourcePath(request);
+    String resourcePath = buildResourcePath(request.getContextPath(), request.getRequestURI());
     String primaryKey = "src/main/resources" + resourcePath;
 
     Article article = articleService.getById(primaryKey);
@@ -47,7 +47,7 @@ public class ArticleServlet extends HttpServlet {
 
   private static void renderHtml(HttpServletRequest request, HttpServletResponse response, String code) {
     response.setContentType("text/html;charset=UTF-8");
-    String resourcePath = buildResourcePath(request);
+    String resourcePath = buildResourcePath(request.getContextPath(), request.getRequestURI());
 
     try (PrintWriter out = response.getWriter()) {
       out.println("<!DOCTYPE html>");
@@ -131,13 +131,12 @@ public class ArticleServlet extends HttpServlet {
     return result;
   }
 
-  private static String buildResourcePath(HttpServletRequest request) {
-    String contextPath = request.getContextPath();
-    String requestURI = request.getRequestURI();
-    String path = requestURI.substring(contextPath.length(), requestURI.length());
-    String resourcePath = path + ".md";
+  protected static String buildResourcePath(String contextPath, String requestURI) {
+    System.out.println("Benny 1: " + contextPath);
+    System.out.println("Benny 2: " + requestURI);
 
-    return resourcePath;
+    String path = requestURI.substring(contextPath.length(), requestURI.length());
+    return path + ".md";
   }
 
   @Override

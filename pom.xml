@@ -48,6 +48,12 @@
       <version>7.0</version>
       <scope>provided</scope>
     </dependency>
+    <!-- Servlet API (needed for Mockito) -->
+    <dependency>
+      <groupId>javax.servlet</groupId>
+      <artifactId>javax.servlet-api</artifactId>
+      <version>3.1.0</version>
+    </dependency>
     <!-- JPA -->
     <dependency>
       <groupId>org.eclipse.persistence</groupId>
@@ -73,6 +79,13 @@
       <artifactId>junit</artifactId>
       <version>4.11</version>
       <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.mockito</groupId>
+      <artifactId>mockito-all</artifactId>
+      <version>1.9.5</version>
+      <scope>test</scope>
+      <type>jar</type>
     </dependency>
   </dependencies>
 
