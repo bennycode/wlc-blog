@@ -133,7 +133,7 @@ public class ArticleServlet extends HttpServlet {
 
   protected static String buildResourcePath(String contextPath, String requestURI) {
     System.out.println("Benny 1: " + contextPath);
-    System.out.println("Benny 2: " + requestURI);
+    System.out.println("Benny 3: " + requestURI);
 
     String path = requestURI.substring(contextPath.length(), requestURI.length());
     return path + ".md";
