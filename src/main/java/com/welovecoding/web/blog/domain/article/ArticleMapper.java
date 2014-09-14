@@ -1,5 +1,6 @@
 package com.welovecoding.web.blog.domain.article;
 
+import com.welovecoding.web.blog.markdown.MarkdownParser;
 import com.welovecoding.web.blog.markdown.meta.BufferedMarkdownMetaParser;
 import com.welovecoding.web.blog.markdown.meta.MarkdownMetaData;
 import static com.welovecoding.web.blog.markdown.meta.MarkdownMetaParser.META_END;
@@ -16,13 +17,12 @@ import java.util.Arrays;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import org.markdown4j.Markdown4jProcessor;
 import java.util.Locale;
 
 public class ArticleMapper {
 
   private static final Logger LOG = Logger.getLogger(ArticleMapper.class.getName());
-  private final Markdown4jProcessor markdown4jProcessor = new Markdown4jProcessor();
+  private final MarkdownParser markdownParser = new MarkdownParser();
 
   public Article mapArticleFromMarkdownFile(String absolutePath) {
     LOG.log(Level.INFO, "{0}: Parsing file: {1}", new Object[]{
@@ -63,7 +63,7 @@ public class ArticleMapper {
         if (readMetaData) {
           metaParser.parse(line);
         } else {
-          String markDownLine = markdown4jProcessor.process(line);
+          String markDownLine = markdownParser.process(line);
           content.append(markDownLine);
         }
 
