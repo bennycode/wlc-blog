@@ -31,7 +31,7 @@ public class MarkdownParser {
 
     if (isCode) {
       System.out.println("CODE: " + input);
-      return input;
+      return input.replace(" ", "&nbsp;").replace("\n", "<br/>");
     }
 
     // Begin of code block
