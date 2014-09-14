@@ -6,7 +6,7 @@
 
 # Parent Selectors in LESS
 
-Hallo Welt!
+Hallo Welt!!
 
 Benny tets Code-Rendering:
 

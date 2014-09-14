@@ -39,7 +39,7 @@ public class MarkdownParser {
       isCode = true;
       System.out.println("CODE START!");
       String detectedProgrammingLanguage = input.substring(input.lastIndexOf("`") + 1);
-      if (detectedProgrammingLanguage == null) {
+      if (detectedProgrammingLanguage.isEmpty()) {
         System.out.println("DOH!");
       }
 
