@@ -1,11 +1,7 @@
 package com.welovecoding.web.blog.servlet;
 
-import java.io.PrintWriter;
-import java.io.StringWriter;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import org.junit.Test;
-import static org.mockito.Mockito.*;
+import static org.junit.Assert.*;
 
 /**
  * http://stackoverflow.com/a/6037368/451634
@@ -16,17 +12,11 @@ import static org.mockito.Mockito.*;
 public class ArticleServletTest {
 
   @Test
-  public void testBuildResourcePath() throws Exception {
-    HttpServletResponse response = mock(HttpServletResponse.class);
-    HttpServletRequest request = mock(HttpServletRequest.class);
-
-    PrintWriter writer = new PrintWriter(new StringWriter());
-    when(response.getWriter()).thenReturn(writer);
-
-    TestServlet testServlet = new TestServlet();
-    testServlet.doPost(request, response);
-
-    verify(response).setContentType("text/html;charset=UTF-8");
+  public void testBuildResourcePath() {
+    String contextPath = "/wlc-blog";
+    String requestURI = "/wlc-blog/articles/test";
+    String resourcePath = ArticleServlet.buildResourcePath(contextPath, requestURI);
+    assertEquals("/articles/test.md", resourcePath);
   }
 
 }
