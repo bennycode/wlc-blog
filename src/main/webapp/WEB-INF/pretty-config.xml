@@ -1,0 +1,12 @@
+<pretty-config xmlns="http://ocpsoft.org/schema/rewrite-config-prettyfaces" 
+               xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+               xsi:schemaLocation="http://ocpsoft.org/schema/rewrite-config-prettyfaces
+                      http://ocpsoft.org/xml/ns/prettyfaces/rewrite-config-prettyfaces.xsd">
+
+  <!-- Maps "/user/#{username}" to the URL "/user/view.xhtml?username=value" -->
+  <url-mapping id="view-article">
+    <pattern value="/artikel/#{slug}" />
+    <view-id value="/artikel.xhtml" />
+  </url-mapping>
+
+</pretty-config>

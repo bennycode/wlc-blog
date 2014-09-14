@@ -1,0 +1,38 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html">
+  <h:head>
+    <title>Facelet Title</title>
+    <h:outputStylesheet name="lib/syntaxhighlighter/3.0.83/styles/shThemeDefault.css" />
+  </h:head>
+  <h:body>
+    <pre class="brush: java; ruler: true; highlight: [2, 4, 6]">
+  public static void main(String[] args) {
+    String repositoryUrl = "https://github.com/bennyn/wlc-blog";
+    String localRepositoryPath = "C:\\Users\\Benny\\wlc-blog";
+
+    GitHelper gh = new GitHelper();
+
+    try {
+      gh.init(repositoryUrl, localRepositoryPath);
+      boolean wasPulled = gh.pull();
+      System.out.println("Pulled? " + wasPulled);
+    } catch (GitInitializationException | GitPullException ex) {
+      System.out.println("Error: " + ex.getMessage());
+    }
+  }
+    </pre>
+    <h:outputScript name="lib/syntaxhighlighter/3.0.83/scripts/shCore.js" />
+    <h:outputScript name="lib/syntaxhighlighter/3.0.83/scripts/shAutoloader.js" />
+    <script type="text/javascript">
+      SyntaxHighlighter.autoloader(
+              ['bash', '#{request.contextPath}/resources/lib/syntaxhighlighter/3.0.83/scripts/shBrushBash.js'],
+              ['js', 'jscript', 'javascript', '#{request.contextPath}/resources/lib/syntaxhighlighter/3.0.83/scripts/shBrushJScript.js'],
+              ['java', '#{request.contextPath}/resources/lib/syntaxhighlighter/3.0.83/scripts/shBrushJava.js']
+              );
+      SyntaxHighlighter.all();
+    </script>
+  </h:body>
+</html>
+
