@@ -38,7 +38,7 @@ public class MarkdownParser {
     if (input.startsWith(CODE_PATTERN)) {
       isCode = true;
       System.out.println("CODE START!");
-      String test = input.substring(input.indexOf(CODE_PATTERN) + 1);
+      String test = input.substring(input.lastIndexOf("`") + 1);
 
       System.out.println("LANG: " + test);
 
