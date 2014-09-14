@@ -2,12 +2,9 @@ package com.welovecoding.web.blog.servlet;
 
 import com.welovecoding.web.blog.domain.article.Article;
 import com.welovecoding.web.blog.domain.article.ArticleService;
-import com.welovecoding.web.blog.markdown.meta.MarkdownMetaData;
-import com.welovecoding.web.blog.markdown.meta.MarkdownMetaParser;
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.PrintWriter;
-import java.util.Map;
+import java.util.Locale;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.ejb.EJB;
@@ -16,41 +13,33 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import org.apache.commons.io.IOUtils;
-import org.markdown4j.Markdown4jProcessor;
 
 @WebServlet(name = "ArticleServlet", urlPatterns = {"/articles/*"})
 public class ArticleServlet extends HttpServlet {
 
   private static final Logger LOG = Logger.getLogger(ArticleServlet.class.getName());
-  private static String title = "";
-  private static String description = "";
-  private static String content = "";
   @EJB
   private ArticleService articleService;
 
   protected void processRequest(HttpServletRequest request, HttpServletResponse response)
           throws ServletException, IOException {
 
-    String requestURI = request.getRequestURI();
-    String slug = requestURI.substring(requestURI.lastIndexOf("/") + 1); // 
-    
+    String requestURI = request.getRequestURI(); // /wlc-blog/articles/parent-selectors-in-less
+    String slug = requestURI.substring(requestURI.lastIndexOf("/") + 1); // parent-selectors-in-less
+    String languageCode = Locale.GERMAN.getLanguage(); // de
 
-    String resourcePath = buildResourcePath(request.getContextPath(), request.getRequestURI());
-    String primaryKey = "src/main/resources" + resourcePath;
+    Article article = articleService.getByLanguageCodeAndSlug(languageCode, slug);
 
-    Article article = articleService.getById(primaryKey);
     if (article != null) {
-      renderHtml(request, response, article.getHtml());
+      renderHtml(response, article);
     } else {
-      renderHtml(request, response, "404");
+      response.sendError(404);
     }
 
   }
 
-  private static void renderHtml(HttpServletRequest request, HttpServletResponse response, String code) {
+  private static void renderHtml(HttpServletResponse response, Article article) {
     response.setContentType("text/html;charset=UTF-8");
-    String resourcePath = buildResourcePath(request.getContextPath(), request.getRequestURI());
 
     try (PrintWriter out = response.getWriter()) {
       out.println("<!DOCTYPE html>");
@@ -58,88 +47,12 @@ public class ArticleServlet extends HttpServlet {
       out.println("<head>");
       out.println("</head>");
       out.println("<body>");
-      out.println(code);
+      out.println(article.getHtml());
       out.println("</body>");
       out.println("</html>");
     } catch (IOException ex) {
       LOG.log(Level.WARNING, ex.getMessage());
     }
-  }
-
-  private static void printResponse(PrintWriter out) {
-    out.println("<!DOCTYPE html>");
-    out.println("<html>");
-    out.println("<head>");
-    out.println("  <title>" + title + "</title>");
-    out.println("  <meta name=\"description\" content=\"" + description + "\" />");
-    out.println("</head>");
-    out.println("<body>");
-    out.println(content);
-    out.println("</body>");
-    out.println("</html>");
-  }
-
-  private static void processResource(InputStream is) {
-    String fileContent = readFileContent(is);
-
-    // Markdown meta
-    Map<String, MarkdownMetaData> extractedMetaData = readMetaData(fileContent);
-    processMetaData(extractedMetaData);
-
-    // Markdown
-    String markdown = readMarkdown(fileContent);
-
-    try {
-      content = new Markdown4jProcessor().process(markdown);
-    } catch (IOException ex) {
-      LOG.log(Level.WARNING, ex.getMessage());
-    }
-  }
-
-  private static Map<String, MarkdownMetaData> readMetaData(String content) {
-    String metaData = splitMetaData(content);
-    MarkdownMetaParser mp = new MarkdownMetaParser();
-    Map<String, MarkdownMetaData> extractedMetaData = mp.extractMetadata(metaData);
-
-    return extractedMetaData;
-  }
-
-  private static String readMarkdown(String content) {
-    int start = content.indexOf(MarkdownMetaParser.META_END) + MarkdownMetaParser.META_END.length();
-    return content.substring(start);
-  }
-
-  private static void processMetaData(Map<String, MarkdownMetaData> data) {
-    title = data.get("title").getValues()[0];
-    description = data.get("description").getValues()[0];
-  }
-
-  private static String readFileContent(InputStream is) {
-    String result = "";
-
-    try {
-      result = IOUtils.toString(is, "UTF-8");
-    } catch (IOException ex) {
-      LOG.log(Level.WARNING, ex.getMessage());
-    }
-
-    return result;
-  }
-
-  private static String splitMetaData(String content) {
-    int start = content.indexOf(MarkdownMetaParser.META_START) + MarkdownMetaParser.META_START.length();
-    int end = content.indexOf(MarkdownMetaParser.META_END);
-    String result = content.substring(start, end);
-
-    return result;
-  }
-
-  protected static String buildResourcePath(String contextPath, String requestURI) {
-    System.out.println("Benny 1: " + contextPath);
-    System.out.println("Benny 3: " + requestURI);
-
-    String path = requestURI.substring(contextPath.length(), requestURI.length());
-    return path + ".md";
   }
 
   @Override
