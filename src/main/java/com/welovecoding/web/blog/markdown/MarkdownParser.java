@@ -24,16 +24,19 @@ public class MarkdownParser {
     // End of code block
     if (isCode && input.startsWith(input)) {
       isCode = false;
+      System.out.println("CODE END");
       return "</pre>";
     }
 
     if (isCode) {
+      System.out.println("CODE: " + input);
       return input;
     }
 
     // Begin of code block
     if (input.startsWith(CODE_PATTERN)) {
       isCode = true;
+      System.out.println("CODE START!");
       return "<pre>";
     }
 
