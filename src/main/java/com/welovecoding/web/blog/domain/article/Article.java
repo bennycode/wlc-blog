@@ -39,12 +39,21 @@ public class Article implements Serializable {
   @Lob
   private String html;
   private List<String> tags;
+  private String languageCode;
 
   @Column(unique = true)
   private String slug;
 
   public Article() {
     this.published = new GregorianCalendar();
+  }
+
+  public String getLanguageCode() {
+    return languageCode;
+  }
+
+  public void setLanguageCode(String languageCode) {
+    this.languageCode = languageCode;
   }
 
   public String getSlug() {

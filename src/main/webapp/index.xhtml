@@ -12,7 +12,7 @@
       <ul class="clickable-list">
         <ui:repeat value="#{articleController.articles}" var="article">
           <li>
-            <a href="#{article.id}">#{article.title}</a>
+            <a href="#{facesContext.externalContext.requestContextPath}/articles/#{article.slug}">#{article.title}</a>
           </li>
         </ui:repeat>
       </ul>
