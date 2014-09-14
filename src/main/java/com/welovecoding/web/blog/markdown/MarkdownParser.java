@@ -22,7 +22,7 @@ public class MarkdownParser {
   public String process(String input) {
 
     // End of code block
-    if (isCode && input.startsWith(input)) {
+    if (isCode && input.startsWith(CODE_PATTERN)) {
       isCode = false;
       System.out.println("CODE END");
       return "</pre>";
