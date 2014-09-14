@@ -7,6 +7,7 @@ import java.util.Arrays;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.List;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -37,8 +38,19 @@ public class Article implements Serializable {
   private String html;
   private List<String> tags;
 
+  @Column(unique = true)
+  private String slug;
+
   public Article() {
     this.published = new GregorianCalendar();
+  }
+
+  public String getSlug() {
+    return slug;
+  }
+
+  public void setSlug(String slug) {
+    this.slug = slug;
   }
 
   public List<String> getTags() {

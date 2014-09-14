@@ -41,6 +41,13 @@
       <version>3.4.1.201406201815-r</version>
       <type>jar</type>
     </dependency>
+    <!-- Slugify -->
+    <dependency>
+      <groupId>org.apache.commons</groupId>
+      <artifactId>commons-lang3</artifactId>
+      <version>3.3.1</version>
+      <type>jar</type>
+    </dependency>
     <!-- JEE -->
     <dependency>
       <groupId>javax</groupId>
