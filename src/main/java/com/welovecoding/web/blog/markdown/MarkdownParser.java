@@ -38,9 +38,11 @@ public class MarkdownParser {
     if (input.startsWith(CODE_PATTERN)) {
       isCode = true;
       System.out.println("CODE START!");
+
+      // Detect programming language
       String detectedProgrammingLanguage = input.substring(input.lastIndexOf("`") + 1);
-      if (detectedProgrammingLanguage.isEmpty()) {
-        System.out.println("DOH!");
+      if (!detectedProgrammingLanguage.isEmpty()) {
+        programmingLanguage = detectedProgrammingLanguage;
       }
 
       return "<pre class=\"brush: " + programmingLanguage + ";\">";
