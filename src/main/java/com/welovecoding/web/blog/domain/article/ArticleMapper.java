@@ -32,10 +32,10 @@ public class ArticleMapper {
 
     File markdownFile = new File(absolutePath);
     Article article = parseMarkdownFile(markdownFile);
-    
+
     String slug = Slugify.createSlug(article.getTitle());
     article.setSlug(slug);
-    article.setLanguageCode(Locale.ENGLISH.getLanguage());
+    article.setLanguageCode(Locale.GERMAN.getLanguage());
 
     return article;
   }

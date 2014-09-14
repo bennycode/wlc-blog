@@ -94,12 +94,6 @@
       <scope>test</scope>
       <type>jar</type>
     </dependency>
-    <!-- Misc -->
-    <dependency>
-      <groupId>com.neovisionaries</groupId>
-      <artifactId>nv-i18n</artifactId>
-      <version>1.13</version>
-    </dependency>
   </dependencies>
 
   <!-- Build Settings -->
