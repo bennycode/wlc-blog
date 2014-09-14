@@ -20,6 +20,7 @@ public class MarkdownParser {
   }
 
   public String process(String input) {
+    String programmingLanguage = "bash";
 
     // End of code block
     if (isCode && input.startsWith(CODE_PATTERN)) {
@@ -37,7 +38,11 @@ public class MarkdownParser {
     if (input.startsWith(CODE_PATTERN)) {
       isCode = true;
       System.out.println("CODE START!");
-      return "<pre>";
+      String test = input.substring(input.indexOf(CODE_PATTERN) + 1);
+
+      System.out.println("LANG: " + test);
+
+      return "<pre class=\"brush: " + programmingLanguage + ";\">";
     }
 
     // Usual markdown
