@@ -31,8 +31,11 @@ public class ArticleServlet extends HttpServlet {
 
   protected void processRequest(HttpServletRequest request, HttpServletResponse response)
           throws ServletException, IOException {
-    // Key in DB: src/main/resources/articles/test.md
-    // Resource Path Example: /articles/test.md
+
+    String requestURI = request.getRequestURI();
+    String slug = requestURI.substring(requestURI.lastIndexOf("/") + 1); // 
+    
+
     String resourcePath = buildResourcePath(request.getContextPath(), request.getRequestURI());
     String primaryKey = "src/main/resources" + resourcePath;
 

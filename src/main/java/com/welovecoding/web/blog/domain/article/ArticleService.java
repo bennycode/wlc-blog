@@ -3,7 +3,6 @@ package com.welovecoding.web.blog.domain.article;
 import java.util.List;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
-import javax.persistence.criteria.CriteriaQuery;
 
 @Stateless
 public class ArticleService {
@@ -24,6 +23,10 @@ public class ArticleService {
 
   public Article getById(String id) {
     return repository.getById(id);
+  }
+
+  public Article getByLanguageCodeAndSlug(String languageCode, String slug) {
+    return repository.getByLanguageCodeAndSlug(languageCode, slug);
   }
 
   public List<Article> getAll() {

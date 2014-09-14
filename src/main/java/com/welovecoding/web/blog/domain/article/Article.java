@@ -1,6 +1,6 @@
 package com.welovecoding.web.blog.domain.article;
 
-import static com.welovecoding.web.blog.domain.article.Article.FIND_BY_ID;
+import static com.welovecoding.web.blog.domain.article.Article.*;
 import java.io.Serializable;
 import java.text.MessageFormat;
 import java.util.Arrays;
@@ -20,12 +20,15 @@ import javax.persistence.TemporalType;
 
 @Entity
 @NamedQueries({
-  @NamedQuery(name = FIND_BY_ID, query = "SELECT a FROM Article a WHERE a.id = :id")
+  @NamedQuery(name = FIND_BY_ID, query = "SELECT a FROM Article a WHERE a.id = :id"),
+  @NamedQuery(name = FIND_BY_LANGUAGE_AND_SLUG, query = "SELECT a FROM Article a WHERE a.slug = :slug AND a.languageCode = :languageCode")
 })
 public class Article implements Serializable {
 
-  public static final String FIND_BY_ID = "Article.findByPrimaryKey";
   private static final long serialVersionUID = 1L;
+
+  public static final String FIND_BY_ID = "Article.findByPrimaryKey";
+  public static final String FIND_BY_LANGUAGE_AND_SLUG = "Article.findByLanguageAndSlug";
 
   @Id
   @GeneratedValue(strategy = GenerationType.AUTO)
