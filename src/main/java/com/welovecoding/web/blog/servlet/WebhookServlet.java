@@ -103,7 +103,14 @@ public class WebhookServlet extends HttpServlet {
       System.out.println("Output: " + payload);
 
       // Process Payload
+      LOG.log(Level.INFO, "Processing Payload.");
       WebhookInfo info = mapper.map(payload);
+
+      LOG.log(Level.INFO, "Processed Payload.");
+      logInfo(String.format("New Files: %s", info.getUntrackedFiles().size()));
+      logInfo(String.format("Modified Files: %s", info.getModifiedFiles().size()));
+      logInfo(String.format("Removed Files: %s", info.getRemovedFiles().size()));
+      logInfo(String.format("Moved Files: %s", info.getMovedFiles().size()));
 
       // Pull files in Git
       boolean isPulled = gitHubController.pullFiles(info);

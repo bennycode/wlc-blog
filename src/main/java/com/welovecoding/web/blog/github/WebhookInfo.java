@@ -11,6 +11,7 @@ public class WebhookInfo {
   private String repositoryUrl = "https://github.com/bennyn/wlc-blog";
   private String localRepositoryPath = "C:\\Users\\Benny\\wlc-blog";
 
+  // New files
   private List<String> untrackedFiles;
   private List<String> modifiedFiles;
   private List<String> removedFiles;
