@@ -18,7 +18,9 @@ public class GitHubController {
     String localPath = webhook.getLocalRepositoryPath();
 
     boolean isPulled = updateRepository(remotePath, localPath);
-
+    
+    // TODO: New & Removed file can be a hint for a renamed file! We have to check that!
+    
     return isPulled;
   }
 
