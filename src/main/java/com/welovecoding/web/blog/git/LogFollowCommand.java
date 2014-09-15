@@ -46,7 +46,7 @@ public class LogFollowCommand {
    * @throws GitAPIException
    */
   public ArrayList<RevCommit> call() throws IOException, MissingObjectException, GitAPIException {
-    ArrayList<RevCommit> commits = new ArrayList<RevCommit>();
+    ArrayList<RevCommit> commits = new ArrayList<>();
     git = new Git(repository);
     RevCommit start = null;
     do {
@@ -91,9 +91,12 @@ public class LogFollowCommand {
       rd.addAll(DiffEntry.scan(tw));
       List<DiffEntry> files = rd.compute();
       for (DiffEntry diffEntry : files) {
+        // TODO: Break after the first FOUND and return OLD and NEW NAME
+        // Then removed OLD NAME/Path from removedFiles info and make the UNTRACKED FILE
+        // to a MODIFIED FILE.
         if ((diffEntry.getChangeType() == DiffEntry.ChangeType.RENAME || diffEntry.getChangeType() == DiffEntry.ChangeType.COPY) && diffEntry.getNewPath().contains(path)) {
           System.out.println("Found: " + diffEntry.toString() + " return " + diffEntry.getOldPath());
-          return diffEntry.getOldPath();
+          return diffEntry.getOldPath();          
         }
       }
     }
