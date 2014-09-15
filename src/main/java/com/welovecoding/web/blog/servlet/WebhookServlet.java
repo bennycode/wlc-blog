@@ -113,7 +113,7 @@ public class WebhookServlet extends HttpServlet {
       }
       logInfo(String.format("Modified Files: %s", info.getModifiedFiles().size()));
       for (String file : info.getModifiedFiles()) {
-        logInfo(file);
+        logInfo(file); // src/main/java/com/welovecoding/web/blog/git/GitHubController.java
       }
       logInfo(String.format("Removed Files: %s", info.getRemovedFiles().size()));
       for (String file : info.getRemovedFiles()) {

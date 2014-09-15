@@ -49,8 +49,6 @@ public class GitHelper {
       isSuccessful = result.isSuccessful();
     } catch (GitAPIException ex) {
       throw new GitPullException(ex);
-    } finally {
-      this.close();
     }
 
     return isSuccessful;
@@ -66,10 +64,13 @@ public class GitHelper {
       refUpdate.setForceUpdate(true);
       refUpdate.link(reference);
     } catch (IOException ex) {
-      this.close();
       throw new GitUpdateReferenceException(ex);
     }
 
+  }
+
+  public Repository getRepository() {
+    return repository;
   }
 
   // <editor-fold desc="Repository Initialization">
