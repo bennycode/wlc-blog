@@ -25,6 +25,7 @@ public class LogFollowCommand {
   private final Repository repository;
   private String path;
   private Git git;
+  private String result;
 
   /**
    * Create a Log command that enables the follow option: git log --follow -- < path
@@ -50,6 +51,7 @@ public class LogFollowCommand {
     ArrayList<RevCommit> commits = new ArrayList<>();
     git = new Git(repository);
     RevCommit start = null;
+    this.result = null;
 
     do {
       Iterable<RevCommit> log = git.log().addPath(path).call();
@@ -66,8 +68,7 @@ public class LogFollowCommand {
       }
     } while ((path = getRenamedPath(start)) != null);
 
-    String test = path;
-    System.out.println("TEST: " + test);
+    System.out.println("RES: " + result);
 
     return commits;
   }
@@ -103,6 +104,7 @@ public class LogFollowCommand {
         // Stop after first (which is the latest) renaming has been found
         if ((diffEntry.getChangeType() == DiffEntry.ChangeType.RENAME || diffEntry.getChangeType() == DiffEntry.ChangeType.COPY) && diffEntry.getNewPath().contains(path)) {
           previousFilePath = diffEntry.getOldPath();
+          this.result = previousFilePath;
           break commitloop;
         }
       }
