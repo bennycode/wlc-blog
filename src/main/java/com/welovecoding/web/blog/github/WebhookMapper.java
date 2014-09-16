@@ -1,12 +1,16 @@
 package com.welovecoding.web.blog.github;
 
+import com.welovecoding.web.blog.util.FileUtility;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
 public class WebhookMapper {
+
+  WebhookInfo info;
 
   public WebhookMapper() {
   }
@@ -17,30 +21,44 @@ public class WebhookMapper {
   }
 
   public WebhookInfo map(JSONObject json) {
-
-    WebhookInfo info = new WebhookInfo();
+    info = new WebhookInfo();
 
     info.setCredential(parseCommitterEmail(json));
 
-    info.setLocalRepositoryPath(createLocalRepositoryPath(json));
+    String repositoryPath = createLocalRepositoryPath(json);
+    info.setLocalRepositoryPath(repositoryPath);
 
     // Files
-    System.out.println("LALA: " + info.getLocalRepositoryPath());
     List<String> modifiedFiles = parseModifiedFiles(json);
-    for (String relativeFilePath : modifiedFiles) {
-      System.out.println("MOD: " + relativeFilePath);
-    }
+    addFiles(modifiedFiles, RepositoryFileStatus.MODIFIED);
+
+    List<String> removedFiles = parseRemovedFiles(json);
+    addFiles(removedFiles, RepositoryFileStatus.DELETED);
+
+    List<String> untrackedFiles = parseAddedFiles(json);
+    addFiles(untrackedFiles, RepositoryFileStatus.ADDED);
 
     info.setMovedFiles(new ArrayList<String>());
-    info.setRemovedFiles(parseRemovedFiles(json));
-
+    
     info.setReference(parseReference(json));
     info.setRepositoryName(parseRepositoryName(json));
     info.setRepositoryUrl(parseRepositoryUrl(json));
-    info.setUntrackedFiles(parseAddedFiles(json));
 
     return info;
 
+  }
+
+  private void addFiles(List<String> filePaths, RepositoryFileStatus status) {
+    Map<String, RepositoryFile> files = info.getFiles();
+    RepositoryFile file = new RepositoryFile();
+
+    for (String filePath : filePaths) {
+      file.setRelativePath(filePath);
+      file.setAbsoluteLocalPath(FileUtility.joinDirectoryAndFilePath(info.getLocalRepositoryPath(), filePath));
+      file.setStatus(status);
+
+      files.put(filePath, file);
+    }
   }
 
   protected String createLocalRepositoryPath(JSONObject json) {

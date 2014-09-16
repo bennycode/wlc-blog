@@ -37,7 +37,7 @@ public class GitHubController {
               renamingInspector.getOldFilePath()
             });
           } else {
-            LOG.log(Level.INFO, "New file: " + newFile);
+            LOG.log(Level.INFO, "New file: {0}", newFile);
           }
         }
       }

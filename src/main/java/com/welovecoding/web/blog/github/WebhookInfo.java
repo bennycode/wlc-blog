@@ -1,5 +1,6 @@
 package com.welovecoding.web.blog.github;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
@@ -22,6 +23,7 @@ public class WebhookInfo {
   private Map<String, RepositoryFile> files;
 
   public WebhookInfo() {
+    this.files = new HashMap<>();
   }
 
   // <editor-fold defaultstate="collapsed" desc="Setter & Getter">
