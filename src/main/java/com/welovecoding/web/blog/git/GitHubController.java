@@ -31,7 +31,7 @@ public class GitHubController {
         LogFollowCommand renamingInspector = new LogFollowCommand(gh.getRepository(), newFile);
         ArrayList<RevCommit> commits = renamingInspector.call();
         if (commits != null) {
-          LOG.log(Level.INFO, "\"{0}\" has been renamed to \"{1}\".", new Object[]{
+          LOG.log(Level.INFO, "\"{0}\" has been renamed from \"{1}\".", new Object[]{
             newFile,
             renamingInspector.getOldFilePath()
           });
