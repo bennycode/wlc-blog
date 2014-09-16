@@ -50,6 +50,7 @@ public class LogFollowCommand {
     ArrayList<RevCommit> commits = new ArrayList<>();
     git = new Git(repository);
     RevCommit start = null;
+
     do {
       Iterable<RevCommit> log = git.log().addPath(path).call();
       for (RevCommit commit : log) {
@@ -64,6 +65,9 @@ public class LogFollowCommand {
         return commits;
       }
     } while ((path = getRenamedPath(start)) != null);
+
+    String test = path;
+    System.out.println("TEST: " + test);
 
     return commits;
   }
@@ -81,6 +85,7 @@ public class LogFollowCommand {
    * @throws GitAPIException
    */
   private String getRenamedPath(RevCommit start) throws IOException, MissingObjectException, GitAPIException {
+    String previousFilePath = null;
     Iterable<RevCommit> allCommitsLater = git.log().add(start).call();
 
     commitloop:
@@ -95,14 +100,14 @@ public class LogFollowCommand {
 
       diffloop:
       for (DiffEntry diffEntry : files) {
+        // Stop after first (which is the latest) renaming has been found
         if ((diffEntry.getChangeType() == DiffEntry.ChangeType.RENAME || diffEntry.getChangeType() == DiffEntry.ChangeType.COPY) && diffEntry.getNewPath().contains(path)) {
-          System.out.println("Found: " + diffEntry.toString() + " return " + diffEntry.getOldPath());
+          previousFilePath = diffEntry.getOldPath();
           break commitloop;
-//          return diffEntry.getOldPath();
         }
       }
     }
 
-    return null;
+    return previousFilePath;
   }
 }
