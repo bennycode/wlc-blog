@@ -66,8 +66,6 @@ public class LogFollowCommand {
       }
     } while ((path = getRenamedPath(start)) != null);
 
-    this.oldFilePath = path;
-
     return commits;
   }
 
@@ -86,7 +84,6 @@ public class LogFollowCommand {
   private String getRenamedPath(RevCommit start) throws IOException, MissingObjectException, GitAPIException {
     this.oldFilePath = null;
     Iterable<RevCommit> allCommitsLater = git.log().add(start).call();
-    String test = null;
 
     commitloop:
     for (RevCommit commit : allCommitsLater) {
@@ -104,16 +101,14 @@ public class LogFollowCommand {
         // Then removed OLD NAME/Path from removedFiles info and make the UNTRACKED FILE
         // to a MODIFIED FILE.
         if ((diffEntry.getChangeType() == DiffEntry.ChangeType.RENAME || diffEntry.getChangeType() == DiffEntry.ChangeType.COPY) && diffEntry.getNewPath().contains(path)) {
-          test = diffEntry.getOldPath();
-          // this.oldFilePath = diffEntry.getOldPath();
+          this.oldFilePath = diffEntry.getOldPath();
           break commitloop;
           // System.out.println("Found: " + diffEntry.toString() + " return " + diffEntry.getOldPath());
           // return diffEntry.getOldPath();
         }
       }
     }
-
-    return test;
+    return null;
   }
 
   public String getOldFilePath() {
