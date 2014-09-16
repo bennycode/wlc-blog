@@ -25,6 +25,7 @@ public class LogFollowCommand {
   private final Repository repository;
   private String path;
   private Git git;
+  private String oldFilePath;
 
   /**
    * Create a Log command that enables the follow option: git log --follow -- < path
@@ -81,6 +82,7 @@ public class LogFollowCommand {
    * @throws GitAPIException
    */
   private String getRenamedPath(RevCommit start) throws IOException, MissingObjectException, GitAPIException {
+    this.oldFilePath = null;
     Iterable<RevCommit> allCommitsLater = git.log().add(start).call();
 
     commitloop:
@@ -99,11 +101,22 @@ public class LogFollowCommand {
         // Then removed OLD NAME/Path from removedFiles info and make the UNTRACKED FILE
         // to a MODIFIED FILE.
         if ((diffEntry.getChangeType() == DiffEntry.ChangeType.RENAME || diffEntry.getChangeType() == DiffEntry.ChangeType.COPY) && diffEntry.getNewPath().contains(path)) {
-          System.out.println("Found: " + diffEntry.toString() + " return " + diffEntry.getOldPath());
-          return diffEntry.getOldPath();
+          this.oldFilePath = diffEntry.getOldPath();
+          break commitloop;
+          // System.out.println("Found: " + diffEntry.toString() + " return " + diffEntry.getOldPath());
+          // return diffEntry.getOldPath();
         }
       }
     }
     return null;
   }
+
+  public String getOldFilePath() {
+    return oldFilePath;
+  }
+
+  public void setOldFilePath(String oldFilePath) {
+    this.oldFilePath = oldFilePath;
+  }
+
 }
