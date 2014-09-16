@@ -23,10 +23,13 @@ public class WebhookMapper {
   public WebhookInfo map(JSONObject json) {
     info = new WebhookInfo();
 
-    info.setCredential(parseCommitterEmail(json));
-
+    // Meta 
     String repositoryPath = createLocalRepositoryPath(json);
     info.setLocalRepositoryPath(repositoryPath);
+    info.setCredential(parseCommitterEmail(json));
+    info.setReference(parseReference(json));
+    info.setRepositoryName(parseRepositoryName(json));
+    info.setRepositoryUrl(parseRepositoryUrl(json));
 
     // Files
     List<String> modifiedFiles = parseModifiedFiles(json);
@@ -38,14 +41,7 @@ public class WebhookMapper {
     List<String> untrackedFiles = parseAddedFiles(json);
     addFiles(untrackedFiles, RepositoryFileStatus.ADDED);
 
-    info.setMovedFiles(new ArrayList<String>());
-    
-    info.setReference(parseReference(json));
-    info.setRepositoryName(parseRepositoryName(json));
-    info.setRepositoryUrl(parseRepositoryUrl(json));
-
     return info;
-
   }
 
   private void addFiles(List<String> filePaths, RepositoryFileStatus status) {

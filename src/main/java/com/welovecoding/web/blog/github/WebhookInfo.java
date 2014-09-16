@@ -1,7 +1,6 @@
 package com.welovecoding.web.blog.github;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 
@@ -12,14 +11,6 @@ public class WebhookInfo {
   private String repositoryName = "wlc-blog";
   private String repositoryUrl = "https://github.com/bennyn/wlc-blog";
   private String localRepositoryPath = "C:\\Users\\Benny\\wlc-blog";
-
-  // New files
-  private List<String> untrackedFiles;
-  private List<String> modifiedFiles;
-  private List<String> removedFiles;
-  // Removed & Added = Moved
-  private List<String> movedFiles;
-
   private Map<String, RepositoryFile> files;
 
   public WebhookInfo() {
@@ -75,38 +66,6 @@ public class WebhookInfo {
     this.localRepositoryPath = localRepositoryPath;
   }
 
-  public List<String> getUntrackedFiles() {
-    return untrackedFiles;
-  }
-
-  public void setUntrackedFiles(List<String> untrackedFiles) {
-    this.untrackedFiles = untrackedFiles;
-  }
-
-  public List<String> getModifiedFiles() {
-    return modifiedFiles;
-  }
-
-  public void setModifiedFiles(List<String> modifiedFiles) {
-    this.modifiedFiles = modifiedFiles;
-  }
-
-  public List<String> getRemovedFiles() {
-    return removedFiles;
-  }
-
-  public void setRemovedFiles(List<String> removedFiles) {
-    this.removedFiles = removedFiles;
-  }
-
-  public List<String> getMovedFiles() {
-    return movedFiles;
-  }
-
-  public void setMovedFiles(List<String> movedFiles) {
-    this.movedFiles = movedFiles;
-  }
-
   // </editor-fold>
   @Override
   public int hashCode() {
@@ -116,10 +75,6 @@ public class WebhookInfo {
     hash = 23 * hash + Objects.hashCode(this.repositoryName);
     hash = 23 * hash + Objects.hashCode(this.repositoryUrl);
     hash = 23 * hash + Objects.hashCode(this.localRepositoryPath);
-    hash = 23 * hash + Objects.hashCode(this.untrackedFiles);
-    hash = 23 * hash + Objects.hashCode(this.modifiedFiles);
-    hash = 23 * hash + Objects.hashCode(this.removedFiles);
-    hash = 23 * hash + Objects.hashCode(this.movedFiles);
     return hash;
   }
 
@@ -145,18 +100,6 @@ public class WebhookInfo {
       return false;
     }
     if (!Objects.equals(this.localRepositoryPath, other.localRepositoryPath)) {
-      return false;
-    }
-    if (!Objects.equals(this.untrackedFiles, other.untrackedFiles)) {
-      return false;
-    }
-    if (!Objects.equals(this.modifiedFiles, other.modifiedFiles)) {
-      return false;
-    }
-    if (!Objects.equals(this.removedFiles, other.removedFiles)) {
-      return false;
-    }
-    if (!Objects.equals(this.movedFiles, other.movedFiles)) {
       return false;
     }
     return true;

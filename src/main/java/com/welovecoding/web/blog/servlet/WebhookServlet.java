@@ -106,63 +106,11 @@ public class WebhookServlet extends HttpServlet {
       LOG.log(Level.INFO, "Processing Payload.");
       WebhookInfo info = mapper.map(payload);
       LOG.log(Level.INFO, "Processed Payload.");
-      
-      /*
-      logInfo(String.format("New Files: %s", info.getUntrackedFiles().size()));
-      for (String file : info.getUntrackedFiles()) {
-        logInfo(file);
-      }
-      logInfo(String.format("Modified Files: %s", info.getModifiedFiles().size()));
-      for (String file : info.getModifiedFiles()) {
-        logInfo(file); // src/main/java/com/welovecoding/web/blog/git/GitHubController.java
-      }
-      logInfo(String.format("Removed Files: %s", info.getRemovedFiles().size()));
-      for (String file : info.getRemovedFiles()) {
-        logInfo(file);
-      }
-      logInfo(String.format("Moved Files: %s", info.getMovedFiles().size()));
-      for (String file : info.getMovedFiles()) {
-        logInfo(file);
-      }
-      */
 
       // Pull files in Git
       boolean isPulled = gitHubController.pullFiles(info);
 
       if (isPulled) {
-        String repositoryPath = info.getLocalRepositoryPath();
-        for (String filePath : info.getModifiedFiles()) {
-          //
-
-          String absoluteFilePath = FileUtility.joinDirectoryAndFilePath(repositoryPath, filePath);
-          logInfo(String.format("Checking file: %s", absoluteFilePath));
-
-          if (absoluteFilePath.endsWith(".md")) {
-            // TODO: Get Article from database first, then merge
-            logInfo(String.format("Searching for article ID: %s", filePath));
-
-            Article existingArticle = articleService.getById(filePath);
-            Article mappedArticle = articleMapper.mapArticleFromMarkdownFile(absoluteFilePath);
-
-            if (existingArticle == null) {
-              mappedArticle.setId(filePath);
-
-              articleService.save(mappedArticle);
-              logInfo(String.format("Saved article ID: %s", filePath));
-            } else {
-              existingArticle.setTitle(mappedArticle.getTitle());
-              existingArticle.setDescription(mappedArticle.getDescription());
-              existingArticle.setTags(existingArticle.getTags());
-              existingArticle.setHtml(mappedArticle.getHtml());
-
-              articleService.edit(existingArticle);
-              logInfo(String.format("Edited article ID: %s", filePath));
-            }
-          }
-
-          logInfo(String.format("Checked file: %s", absoluteFilePath));
-
-        }
       }
 
       // Parse files in Git

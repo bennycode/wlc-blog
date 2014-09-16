@@ -24,27 +24,6 @@ public class GitHubController {
 
     boolean isPulled = updateRepository(remotePath, localPath);
 
-    try {
-      // Check for renamed files
-      // TODO: New & Removed file can be a hint for a renamed file! We have to check that!
-      for (String newFile : webhook.getUntrackedFiles()) {
-        LogFollowCommand renamingInspector = new LogFollowCommand(gh.getRepository(), newFile);
-        ArrayList<RevCommit> commits = renamingInspector.call();
-        if (commits != null) {
-          if (renamingInspector.getOldFilePath() != null) {
-            LOG.log(Level.INFO, "\"{0}\" has been renamed from \"{1}\".", new Object[]{
-              newFile,
-              renamingInspector.getOldFilePath()
-            });
-          } else {
-            LOG.log(Level.INFO, "New file: {0}", newFile);
-          }
-        }
-      }
-    } catch (IOException | GitAPIException ex) {
-      Logger.getLogger(GitHubController.class.getName()).log(Level.SEVERE, null, ex);
-    }
-
     return isPulled;
   }
 
