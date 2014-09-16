@@ -104,13 +104,14 @@ public class WebhookServlet extends HttpServlet {
 
       // Process Payload
       LOG.log(Level.INFO, "Processing Payload.");
-      WebhookInfo info = mapper.map(payload);
+      WebhookInfo webhook = mapper.map(payload);
       LOG.log(Level.INFO, "Processed Payload.");
 
       // Pull files in Git
-      boolean isPulled = gitHubController.pullFiles(info);
+      boolean isPulled = gitHubController.pullFiles(webhook);
 
       if (isPulled) {
+        gitHubController.detectMovedFiles();
       }
 
       // Parse files in Git
