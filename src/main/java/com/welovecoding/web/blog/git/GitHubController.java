@@ -35,10 +35,6 @@ public class GitHubController {
             newFile,
             renamingInspector.getOldFilePath()
           });
-
-          webhook.getUntrackedFiles().remove(newFile);
-          webhook.getMovedFiles().add(newFile);
-          webhook.getRemovedFiles().remove(renamingInspector.getOldFilePath());
         }
       }
     } catch (IOException | GitAPIException ex) {
