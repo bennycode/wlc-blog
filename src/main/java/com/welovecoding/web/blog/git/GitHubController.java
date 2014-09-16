@@ -45,7 +45,7 @@ public class GitHubController {
             key,
             previousFilePath
           });
-          file.setStatus(RepositoryFileStatus.MODIFIED);
+          file.setStatus(RepositoryFileStatus.MOVED);
           files.remove(previousFilePath);
         }
       }
@@ -86,6 +86,14 @@ public class GitHubController {
     }
 
     return wasSuccessful;
+  }
+
+  public void logFileStatus() {
+    Map<String, RepositoryFile> files = webhook.getFiles();
+    for (String key : files.keySet()) {
+      RepositoryFile file = files.get(key);
+      LOG.log(Level.INFO, "{0}: {1}", new Object[]{key, file.getStatus().toString()});
+    }
   }
 
 }

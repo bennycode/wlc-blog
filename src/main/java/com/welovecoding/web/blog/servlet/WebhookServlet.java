@@ -112,6 +112,7 @@ public class WebhookServlet extends HttpServlet {
 
       if (isPulled) {
         gitHubController.detectMovedFiles();
+        gitHubController.logFileStatus();
       }
 
       // Parse files in Git
