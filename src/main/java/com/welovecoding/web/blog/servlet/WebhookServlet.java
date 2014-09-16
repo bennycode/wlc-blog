@@ -158,6 +158,8 @@ public class WebhookServlet extends HttpServlet {
             }
           }
 
+          logInfo(String.format("Checked file: %s", absoluteFilePath));
+
         }
       }
 
