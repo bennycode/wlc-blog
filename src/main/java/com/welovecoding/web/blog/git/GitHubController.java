@@ -32,9 +32,13 @@ public class GitHubController {
         ArrayList<RevCommit> commits = renamingInspector.call();
         if (commits != null) {
           LOG.log(Level.INFO, "\"{0}\" has been renamed to \"{1}\".", new Object[]{
-            this.getClass().getSimpleName(),
+            newFile,
             renamingInspector.getOldFilePath()
           });
+
+          webhook.getUntrackedFiles().remove(newFile);
+          webhook.getMovedFiles().add(newFile);
+          webhook.getRemovedFiles().remove(renamingInspector.getOldFilePath());
         }
       }
     } catch (IOException | GitAPIException ex) {
