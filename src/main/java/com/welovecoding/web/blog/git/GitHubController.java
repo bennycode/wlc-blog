@@ -27,10 +27,10 @@ public class GitHubController {
     try {
       // Check for renamed files
       // TODO: New & Removed file can be a hint for a renamed file! We have to check that!
-      for (String filePath : webhook.getUntrackedFiles()) {
-        ArrayList<RevCommit> commits = new LogFollowCommand(gh.getRepository(), filePath).call();
+      for (String newFile : webhook.getUntrackedFiles()) {
+        ArrayList<RevCommit> commits = new LogFollowCommand(gh.getRepository(), newFile).call();
         if (commits != null) {
-          LOG.log(Level.INFO, "\"{0}\" has been renamed.", filePath);
+          LOG.log(Level.INFO, "\"{0}\" has been renamed.", newFile);
         }
       }
     } catch (IOException | GitAPIException ex) {
