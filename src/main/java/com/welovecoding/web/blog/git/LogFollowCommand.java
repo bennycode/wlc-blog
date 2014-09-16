@@ -16,7 +16,8 @@ import java.util.List;
 /**
  * Create a Log command that enables the follow option: git log --follow -- < path
  * >
- * User: OneWorld Example for usage: ArrayList<RevCommit> commits = new
+ * U
+ * ser: OneWorld Example for usage: ArrayList<RevCommit> commits = new
  * LogFollowCommand(repo,"src/com/mycompany/myfile.java").call();
  */
 public class LogFollowCommand {
@@ -81,8 +82,9 @@ public class LogFollowCommand {
    */
   private String getRenamedPath(RevCommit start) throws IOException, MissingObjectException, GitAPIException {
     Iterable<RevCommit> allCommitsLater = git.log().add(start).call();
-    for (RevCommit commit : allCommitsLater) {
 
+    commitloop:
+    for (RevCommit commit : allCommitsLater) {
       TreeWalk tw = new TreeWalk(repository);
       tw.addTree(commit.getTree());
       tw.addTree(start.getTree());
@@ -90,16 +92,17 @@ public class LogFollowCommand {
       RenameDetector rd = new RenameDetector(repository);
       rd.addAll(DiffEntry.scan(tw));
       List<DiffEntry> files = rd.compute();
+
+      diffloop:
       for (DiffEntry diffEntry : files) {
-        // TODO: Break after the first FOUND and return OLD and NEW NAME
-        // Then removed OLD NAME/Path from removedFiles info and make the UNTRACKED FILE
-        // to a MODIFIED FILE.
         if ((diffEntry.getChangeType() == DiffEntry.ChangeType.RENAME || diffEntry.getChangeType() == DiffEntry.ChangeType.COPY) && diffEntry.getNewPath().contains(path)) {
           System.out.println("Found: " + diffEntry.toString() + " return " + diffEntry.getOldPath());
-          return diffEntry.getOldPath();          
+          break commitloop;
+          // return diffEntry.getOldPath();
         }
       }
     }
+
     return null;
   }
 }
