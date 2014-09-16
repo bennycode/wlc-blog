@@ -21,11 +21,16 @@ public class WebhookMapper {
     WebhookInfo info = new WebhookInfo();
 
     info.setCredential(parseCommitterEmail(json));
+
     info.setLocalRepositoryPath(createLocalRepositoryPath(json));
+
+    // Files
+    System.out.println("LALA: " + info.getLocalRepositoryPath());
     info.setModifiedFiles(parseModifiedFiles(json));
     info.setMovedFiles(new ArrayList<String>());
-    info.setReference(parseReference(json));
     info.setRemovedFiles(parseRemovedFiles(json));
+
+    info.setReference(parseReference(json));
     info.setRepositoryName(parseRepositoryName(json));
     info.setRepositoryUrl(parseRepositoryUrl(json));
     info.setUntrackedFiles(parseAddedFiles(json));

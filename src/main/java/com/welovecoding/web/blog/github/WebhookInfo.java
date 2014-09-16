@@ -1,6 +1,7 @@
 package com.welovecoding.web.blog.github;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 
 public class WebhookInfo {
@@ -18,10 +19,20 @@ public class WebhookInfo {
   // Removed & Added = Moved
   private List<String> movedFiles;
 
+  private Map<String, RepositoryFile> files;
+
   public WebhookInfo() {
   }
 
   // <editor-fold defaultstate="collapsed" desc="Setter & Getter">
+  public Map<String, RepositoryFile> getFiles() {
+    return files;
+  }
+
+  public void setFiles(Map<String, RepositoryFile> files) {
+    this.files = files;
+  }
+
   public String getReference() {
     return reference;
   }
