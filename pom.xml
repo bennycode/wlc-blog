@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- 
+<!--
   http://maven.apache.org/pom.html#Quick_Overview
   http://maven.apache.org/guides/mini/guide-naming-conventions.html
   Lifecycle: http://maven.apache.org/ref/3.2.3/maven-core/lifecycles.html
 -->
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
 
   <!-- The Basics -->
@@ -19,7 +20,7 @@
     <endorsed.dir>${project.build.directory}/endorsed</endorsed.dir>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
   </properties>
-    
+
   <dependencies>
     <dependency>
       <groupId>org.json</groupId>
@@ -137,13 +138,15 @@
           </execution>
         </executions>
       </plugin>
-      
+
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-site-plugin</artifactId>
         <version>3.4</version>
         <configuration>
           <!-- http://sourceforge.net/p/eclemma/bugs/105/ -->
+          <!-- http://maven.apache.org/plugins/maven-site-plugin/maven-3.html -->
+          <!-- If you use the new Maven 3 way of configuring reports (not recommended), in the <reportPlugins> section, it will only work with Maven 3. -->
           <reportPlugins>
             <plugin>
               <groupId>org.jacoco</groupId>
@@ -152,7 +155,7 @@
           </reportPlugins>
         </configuration>
       </plugin>
-      
+
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-compiler-plugin</artifactId>
@@ -165,7 +168,7 @@
           </compilerArguments>
         </configuration>
       </plugin>
-      
+
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-war-plugin</artifactId>
@@ -174,7 +177,7 @@
           <failOnMissingWebXml>false</failOnMissingWebXml>
         </configuration>
       </plugin>
-      
+
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-dependency-plugin</artifactId>
@@ -200,10 +203,10 @@
           </execution>
         </executions>
       </plugin>
-     
+
     </plugins>
   </build>
-  
+
   <reporting>
     <outputDirectory>${project.build.directory}/site</outputDirectory>
     <!-- https://github.com/jacoco/jacoco/issues/33 -->
