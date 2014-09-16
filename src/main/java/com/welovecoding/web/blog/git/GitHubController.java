@@ -45,6 +45,8 @@ public class GitHubController {
             key,
             previousFilePath
           });
+          file.setStatus(RepositoryFileStatus.MODIFIED);
+          files.remove(previousFilePath);
         }
       }
     }
