@@ -26,7 +26,11 @@ public class WebhookMapper {
 
     // Files
     System.out.println("LALA: " + info.getLocalRepositoryPath());
-    info.setModifiedFiles(parseModifiedFiles(json));
+    List<String> modifiedFiles = parseModifiedFiles(json);
+    for (String relativeFilePath : modifiedFiles) {
+      System.out.println("MOD: " + relativeFilePath);
+    }
+
     info.setMovedFiles(new ArrayList<String>());
     info.setRemovedFiles(parseRemovedFiles(json));
 

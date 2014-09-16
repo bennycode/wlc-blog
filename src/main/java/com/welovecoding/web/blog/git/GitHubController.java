@@ -31,10 +31,14 @@ public class GitHubController {
         LogFollowCommand renamingInspector = new LogFollowCommand(gh.getRepository(), newFile);
         ArrayList<RevCommit> commits = renamingInspector.call();
         if (commits != null) {
-          LOG.log(Level.INFO, "\"{0}\" has been renamed from \"{1}\".", new Object[]{
-            newFile,
-            renamingInspector.getOldFilePath()
-          });
+          if (renamingInspector.getOldFilePath() != null) {
+            LOG.log(Level.INFO, "\"{0}\" has been renamed from \"{1}\".", new Object[]{
+              newFile,
+              renamingInspector.getOldFilePath()
+            });
+          } else {
+            LOG.log(Level.INFO, "New file: " + newFile);
+          }
         }
       }
     } catch (IOException | GitAPIException ex) {
