@@ -82,7 +82,6 @@ public class LogFollowCommand {
    * @throws GitAPIException
    */
   private String getRenamedPath(RevCommit start) throws IOException, MissingObjectException, GitAPIException {
-    this.oldFilePath = null;
     Iterable<RevCommit> allCommitsLater = git.log().add(start).call();
 
     commitloop:
