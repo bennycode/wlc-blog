@@ -66,6 +66,8 @@ public class LogFollowCommand {
       }
     } while ((path = getRenamedPath(start)) != null);
 
+    this.oldFilePath = path;
+
     return commits;
   }
 
@@ -103,14 +105,15 @@ public class LogFollowCommand {
         // to a MODIFIED FILE.
         if ((diffEntry.getChangeType() == DiffEntry.ChangeType.RENAME || diffEntry.getChangeType() == DiffEntry.ChangeType.COPY) && diffEntry.getNewPath().contains(path)) {
           test = diffEntry.getOldPath();
-          this.oldFilePath = diffEntry.getOldPath();
+          // this.oldFilePath = diffEntry.getOldPath();
           break commitloop;
           // System.out.println("Found: " + diffEntry.toString() + " return " + diffEntry.getOldPath());
           // return diffEntry.getOldPath();
         }
       }
     }
-    return null;
+
+    return test;
   }
 
   public String getOldFilePath() {
