@@ -97,8 +97,8 @@ public class LogFollowCommand {
       for (DiffEntry diffEntry : files) {
         if ((diffEntry.getChangeType() == DiffEntry.ChangeType.RENAME || diffEntry.getChangeType() == DiffEntry.ChangeType.COPY) && diffEntry.getNewPath().contains(path)) {
           System.out.println("Found: " + diffEntry.toString() + " return " + diffEntry.getOldPath());
-          // break commitloop;
-          return diffEntry.getOldPath();
+          break commitloop;
+//          return diffEntry.getOldPath();
         }
       }
     }
