@@ -25,7 +25,6 @@ public class LogFollowCommand {
   private final Repository repository;
   private String path;
   private Git git;
-  private String result;
 
   /**
    * Create a Log command that enables the follow option: git log --follow -- < path
@@ -51,8 +50,6 @@ public class LogFollowCommand {
     ArrayList<RevCommit> commits = new ArrayList<>();
     git = new Git(repository);
     RevCommit start = null;
-    this.result = null;
-
     do {
       Iterable<RevCommit> log = git.log().addPath(path).call();
       for (RevCommit commit : log) {
@@ -67,8 +64,6 @@ public class LogFollowCommand {
         return commits;
       }
     } while ((path = getRenamedPath(start)) != null);
-
-    System.out.println("RES: " + result);
 
     return commits;
   }
@@ -86,7 +81,6 @@ public class LogFollowCommand {
    * @throws GitAPIException
    */
   private String getRenamedPath(RevCommit start) throws IOException, MissingObjectException, GitAPIException {
-    String previousFilePath = null;
     Iterable<RevCommit> allCommitsLater = git.log().add(start).call();
 
     commitloop:
@@ -101,15 +95,15 @@ public class LogFollowCommand {
 
       diffloop:
       for (DiffEntry diffEntry : files) {
-        // Stop after first (which is the latest) renaming has been found
+        // TODO: Break after the first FOUND and return OLD and NEW NAME
+        // Then removed OLD NAME/Path from removedFiles info and make the UNTRACKED FILE
+        // to a MODIFIED FILE.
         if ((diffEntry.getChangeType() == DiffEntry.ChangeType.RENAME || diffEntry.getChangeType() == DiffEntry.ChangeType.COPY) && diffEntry.getNewPath().contains(path)) {
-          previousFilePath = diffEntry.getOldPath();
-          this.result = previousFilePath;
-          break commitloop;
+          System.out.println("Found: " + diffEntry.toString() + " return " + diffEntry.getOldPath());
+          return diffEntry.getOldPath();
         }
       }
     }
-
-    return previousFilePath;
+    return null;
   }
 }
