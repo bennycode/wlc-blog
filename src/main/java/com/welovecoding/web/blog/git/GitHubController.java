@@ -39,8 +39,8 @@ public class GitHubController {
     for (String key : files.keySet()) {
       RepositoryFile file = files.get(key);
       if (file.getStatus() == RepositoryFileStatus.ADDED) {
-        String previousFilePath = parsePreviousFilePaths(file.getRelativePath());
-        System.out.println("TEST!");
+        // TODO: Maybe we should work without breaks to make sure we get the moved file!
+        String previousFilePath = parsePreviousFilePaths(file.getRelativePath());        
         if (previousFilePath != null) {
           LOG.log(Level.INFO, "GOTCHA: \"{0}\" has been renamed from \"{1}\".", new Object[]{
             key,

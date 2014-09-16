@@ -97,9 +97,7 @@ public class LogFollowCommand {
 
       diffloop:
       for (DiffEntry diffEntry : files) {
-        // TODO: Break after the first FOUND and return OLD and NEW NAME
-        // Then removed OLD NAME/Path from removedFiles info and make the UNTRACKED FILE
-        // to a MODIFIED FILE.
+        // TODO: We should revert the code and get all previous file path names!
         if ((diffEntry.getChangeType() == DiffEntry.ChangeType.RENAME || diffEntry.getChangeType() == DiffEntry.ChangeType.COPY) && diffEntry.getNewPath().contains(path)) {
           this.oldFilePath = diffEntry.getOldPath();
           break commitloop;
