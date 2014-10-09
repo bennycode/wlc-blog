@@ -95,6 +95,8 @@ Nicht gut: 3 Layers für 2 Elemente. Wir schachteln erst ab 2. Also wäre das ab
 
 ...
 
+Hinweis auf querySelector und QuerySelectorAll
+
 ```html
 <script>
   var selector = {
@@ -112,6 +114,9 @@ Nicht gut: 3 Layers für 2 Elemente. Wir schachteln erst ab 2. Also wäre das ab
   }, false);
 </script>
 ```
+
+Hinweis: addEventListener anstatt Events überschreiben!
+// Verlinkung auf: document.getElementById("sample").setAttribute('onclick','alert("done")');
 
 ```
 Uncaught TypeError: Cannot read property 'addEventListener' of null

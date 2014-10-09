@@ -1,6 +1,8 @@
 <!--*
   title: Tomcat Server
+
   description: Erklärung wie "Tomcat Server" die Welt verändern können.
+
   tags: ["Schon gewusst", "Kurztipp", "Tomcat v8.0.12", "Application server"]
 *-->
 
@@ -16,7 +18,7 @@ Benny testet Code-Rendering:
 String webappDirLocation = "src/main/webapp/";
 Tomcat tomcat = new Tomcat();
 
-//The port that we should run on can be set into an environment variable
+//[wlc:code]The port that we should run on can be set into an environment variable
 //Look for that variable and default to 8080 if it isn't there.
 String webPort = System.getenv("PORT");
 if(webPort == null || webPort.isEmpty()) {
@@ -24,4 +26,6 @@ if(webPort == null || webPort.isEmpty()) {
 }
 ```
 
-## Zweite Überschrift
+## Relative Image
+
+![Ant](image.png)
