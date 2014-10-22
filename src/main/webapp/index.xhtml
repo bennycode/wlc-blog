@@ -7,10 +7,15 @@
     <meta charset="UTF-8" />
     <title><ui:insert name="title">Title</ui:insert></title>
     <link rel="icon" type="image/svg+xml" href="resources/wlc/template/images/logo/nerd-red-bow-tie.svg" />
+    <link rel="stylesheet" href="resources/lib/pure/0.5.0/pure-min.css" />
     <link rel="stylesheet" href="resources/gen/wlc/template/main.css" />
-    <script src="resources/lib/pure/0.5.0/pure-min.css" />
   </head>
   <body jsf:id="body">
+    <object 
+      id="svg-test"
+      type="image/svg+xml" 
+      width="400px"
+      data="resources/wlc/template/images/logo/nerd-red-bow-tie.svg"></object>
     <div>
       <ul>
         <ui:repeat value="#{articleController.articles}" var="article">
@@ -20,5 +25,14 @@
         </ui:repeat>
       </ul>
     </div>
+    <script>
+      window.onload = function () {
+        // http://benfrain.com/selecting-svg-inside-tags-with-javascript/
+        var svgObject = document.getElementById("svg-test");
+        var svg = svgObject.contentDocument;
+        var knot = svg.getElementById("knot");
+        knot.setAttribute("fill", "blue");
+      };
+    </script>
   </body>
 </html>
