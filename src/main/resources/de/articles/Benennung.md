@@ -51,3 +51,15 @@ Korrekterweise (Achtung auf genaue Action):
     <div class="button-upload-images"></div>
     <div class="button-show-participants"></div>
 ```
+
+Für Button Styling eignen sich verbindende Klassen:
+
+```html
+    <div class="button answer-calls"></div>
+    <div class="button type-message"></div>
+    <div class="button upload-images"></div>
+    <div class="button show-participants"></div>
+```
+
+Habe mich für die letzte Variante entschieden, da ein Container-Element eh mehr Elemente rein bekommt und man dann das Alignment nicht mehr sieht. Außerdem geht es nicht darum Code auf einer Kante auszurichten, sondern darum, syntaktisch korrekt zu bleiben und ein Schema zu haben, das konsistent ist.
+
